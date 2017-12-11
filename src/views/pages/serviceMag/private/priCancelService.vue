@@ -43,7 +43,7 @@
      <PageBar :pageData="pageData" :getData="getProprietorsInfo" ></PageBar>
 
     <!-- 弹出框 -->
-    <el-dialog title="新建维修意见" :visible.sync="modelShow">
+    <el-dialog :title="modelTitle" :visible.sync="modelShow">
       <el-form :model="form" label-width="80px" :rules="rules" ref="ruleForm">
         <el-form-item label="房号" prop="room_number">
           <el-input></el-input>
@@ -83,7 +83,7 @@
   import mixin from '../../../../minix/index.js'
   import * as api from "../../../../api/voteManagement";
   export default {
-    name: "inquiry",
+    name: "priCancelService",
     components: {
       
     },
@@ -190,31 +190,6 @@
 </script>
 
 <style scoped lang='scss'>
-  .Vheader {
-    padding: 0 20px;
-  }
-.searchBox {
-    width: 300px;
-    margin-top: 15px;
-    .select {
-      width: 100px;
-    }
-  }
 
-  .btnGroup {
-    margin-top: 20px;
-    margin-bottom: 20px;
-  }
-
-  // css无效
-  .el-dialog__header{
-    background: #1892d1;
-    span {
-    line-height: 1;
-    font-size: 16px;
-    font-weight: 700;
-    color: #fff;
-    }
-  }
 
 </style>

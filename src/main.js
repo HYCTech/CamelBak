@@ -11,6 +11,7 @@ import 'element-ui/lib/theme-default/index.css'
 import './assets/css/base.scss'
 
 import cookie from 'cookies-js'
+import utils  from './utils/index'
 
 
 window.Cookies = cookie;
@@ -19,6 +20,8 @@ Vue.config.productionTip = false
 Vue.use(ElementUI)
 
 Vue.use(plugin, {});
+
+
 
 
 //路由拦截

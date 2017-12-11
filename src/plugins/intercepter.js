@@ -3,7 +3,7 @@ import _ from 'lodash'
 import store from '@/store'
 import config from '@/config'
 import router from '../router'
-import { Loading } from 'element-ui';
+import { Loading ,Message} from 'element-ui';
 
 
 //let loadingInstance = Loading.service({ fullscreen: true });
@@ -19,7 +19,7 @@ export default (Vue) => {
         })
         //axios配置
     axios.defaults.baseURL = config[process.env.NODE_ENV].host
-    axios.defaults.timeout = 10000
+    axios.defaults.timeout = 50000
         // 添加拦截器
     axios.interceptors.request.use(function(config) {
         loadingInstance = Loading.service({ fullscreen: true });
@@ -28,8 +28,19 @@ export default (Vue) => {
         requests.push(config)
         return config
     }, function(error) {
+        this.$message({
+            showClose: true,
+            message: '系统出错了哦',
+            type: 'error'
+          });
+        loadingInstance.close();
         return Promise.reject(error)
     })
+
+
+
+
+
     axios.interceptors.response.use(function(response) {
         loadingInstance.close();
       
@@ -38,11 +49,17 @@ export default (Vue) => {
             return r === response.config
         }) 
         return response.data
-
     }, function(error) {
-       
+    
+        this.$message({
+            showClose: true,
+            message: '系统出错了哦',
+            type: 'error'
+          });
+
+        loadingInstance.close();
         if (error.response) {
-            loadingInstance.close();
+            
             console.log(error.response.status)
             switch (error.response.status) {
                 case 401:

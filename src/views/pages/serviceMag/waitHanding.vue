@@ -17,17 +17,23 @@
         @current-change="tableCurrentChange">
         <el-table-column type="selection" width="55">
         </el-table-column>
-        <el-table-column prop="department" label="部门" width="150">
+        <el-table-column prop="department" label="地方" >
         </el-table-column>
-        <el-table-column prop="employee_name" label="姓名" width="150">
+        <el-table-column prop="employee_name" label="姓名" >
+        </el-table-column>
+        <el-table-column prop="employee_name" label="类别">
         </el-table-column>
         <el-table-column prop="telephone_number" label="联系方式">
         </el-table-column>
-        <el-table-column prop="position" label="职务">
+        <el-table-column prop="position" label="日期">
         </el-table-column>
-        <el-table-column prop="wxopen_id" label="openId">
+        <el-table-column prop="wxopen_id" label="内容">
         </el-table-column>
-        <el-table-column prop="note" label="备注">
+        <el-table-column prop="note" label="图片">
+        </el-table-column>
+        <el-table-column prop="note" label="报价">
+        </el-table-column>
+        <el-table-column prop="note" label="发送报价">
         </el-table-column>
         
       </el-table>
@@ -73,7 +79,7 @@ import mixin from "@/minix/index.js";
 import * as api from "@/api/nowUserPeople";
 import * as utils from "@/utils/index";
 export default {
-  name: "propertyOfc",
+  name: "waitHanding",
   mixins: [mixin],
   mounted() {
     this.getInfo();
@@ -89,14 +95,12 @@ export default {
         position: ""
       },
 
-      rules: {
-        owner_name: [{ required: true, message: "请输入姓名", trigger: "blur" }]
-      }
+      
     };
   },
 
   methods: {
-  
+
     //莫谈框点击确定
     okModel() {
       this.$refs["ruleForm"].validate(valid => {
@@ -104,20 +108,10 @@ export default {
           console.log("submit!");
           if (this.isAdd) {
             //添加操作
-            api.addPropertyOfcInfo(this.form).then(res => {
-              console.log(res);
-              this.modelShow = false;
-              this.successMsg();
-              this.getInfo();
-            });
+            
           } else {
             //编辑操作
-            api.updatePropertyOfcInfo(this.checkId, this.form).then(res => {
-              console.log(res);
-              this.modelShow = false;
-              this.successMsg();
-              this.getInfo();
-            });
+           
           }
          
         } else {
@@ -129,23 +123,13 @@ export default {
 
     //获取分页数据
     getInfo() {
-      api
-        .getPropertyOfcInfo(this.pageData.page - 1, this.pageData.pageSize)
-        .then(res => {
-          console.log(res);
-          this.tableData = res.data;
-          this.pageData.total = res.count;
-        });
+    
     },
 
      //删除数据
     delItem() {
       if (this.checkId) {
-        api.removePropertyOfcInfo(this.checkId).then(res => {
-          console.log(res);
-          this.successMsg();
-          this.getInfo();
-        });
+        
       }
     },
 

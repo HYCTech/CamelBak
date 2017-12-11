@@ -6,8 +6,8 @@
       <!-- 按钮组 -->
       <div class="btnGroup">
         <el-button type="success" icon="plus" @click="openModel(1)">添加</el-button>
-        <el-button type="info" icon="edit">编辑</el-button>
-        <el-button type="danger" icon="delete">删除</el-button>
+        <el-button type="info" icon="edit" @click="openModel(0)">编辑</el-button>
+        <el-button type="danger" icon="delete" @click="delMsg()">删除</el-button>
       </div>
     </div>
 
@@ -21,43 +21,40 @@
         </el-table-column>
         <el-table-column prop="owner_name" label="姓名" width="150">
         </el-table-column>
-        <el-table-column prop="telephone_number" label="电话号码" width="150">
+        <el-table-column prop="telephone_number"  label="电话号码" width="150">
         </el-table-column>
-        <el-table-column prop="creattime" label="日期">
+        <el-table-column prop="creattime"  label="日期" >
         </el-table-column>
         <el-table-column prop="content" label="内容">
         </el-table-column>
-        <el-table-column fixed="right" prop="decision" label="选择" >
+        <el-table-column  prop="decision" label="选择" >
         </el-table-column>
       </el-table>
     </div>
 
     <!-- 分页 -->
-    <PageBar :pageData="pageData" :getData="getProprietorsInfo" ></PageBar>
+    <PageBar :pageData="pageData" :getData="getInfo" ></PageBar>
 
     <!-- 弹出框 -->
-    <el-dialog title="新建维修意见" :visible.sync="modelShow">
+    <el-dialog :title="modelTitle" :visible.sync="modelShow">
       <el-form :model="form" label-width="80px" :rules="rules" ref="ruleForm">
         <el-form-item label="房号" prop="room_number">
-          <el-input></el-input>
+          <el-input v-model="form.room_number"></el-input>
         </el-form-item>
         <el-form-item label="姓名" prop="owner_name">
           <el-input v-model="form.owner_name"></el-input>
         </el-form-item>
         <el-form-item label="电话号码" prop="telephone_number">
-          <el-input></el-input>
+          <el-input v-model="form.telephone_number"></el-input>
         </el-form-item>
-        <el-form-item label="日期">
-         <el-date-picker type="date" placeholder="选择日期" v-model="date" style="width: 100%;"></el-date-picker>
+        <el-form-item label="日期" prop="creattime">
+         <el-date-picker type="date" placeholder="选择日期" v-model="form.creattime" style="width: 100%;"></el-date-picker>
         </el-form-item>
-        <el-form-item label="内容">
-          <el-input></el-input>
+        <el-form-item label="内容" prop="content">
+          <el-input v-model="form.content"></el-input>
         </el-form-item>
-        <el-form-item label="选择">
-          <el-select v-model="form.region" placeholder="请选择" style="width: 100%;">
-          <el-option label="同意" value="agreement"></el-option>
-          <el-option label="不同意" value="disagree"></el-option>
-          </el-select>
+        <el-form-item label="选择" prop="decision">
+          <el-input v-model="form.decision"></el-input>
         </el-form-item>
 
       </el-form>
@@ -78,34 +75,20 @@
     name: "inquiry",
     mixins: [mixin],
     mounted() {
-      this.getProprietorsInfo()
+      this.getInfo()
     },
     data() {
       return {
-        
-        tableData: [], //表格数据 
-        modelShow: false, //莫弹框开关 
-        date:'',//选择时间
         form: {
           room_number:'',
           owner_name:'',
           telephone_number:'',
           creattime:'',
-          content:''
+          content:'',
+          decision:''
         }, //表单数据 
 
-        rules: {
-          owner_name: [
-            { required: true, message: '请输入姓名', trigger: 'blur' }, 
-          ],
-          room_number:[
-            { required: true, message: '请输入房号', trigger: 'blur' }, 
-          ],
-          telephone_number:[
-            { required: true, message: '请输入电话号码', trigger: 'blur' }, 
-          ]
-        
-        }
+      
 
 
       };
@@ -113,11 +96,8 @@
 
     methods: {
 
-      click(){
-        this.onsearch(this.search)
-      },
       //获取分页数据
-      getProprietorsInfo() {
+      getInfo() {
         api.getBusinessReceive(this.pageData.page-1,this.pageData.pageSize).then(res => {
           console.log(res);
           this.tableData = res.data
@@ -126,35 +106,48 @@
         });
       },
       
-      //点击 添加 或者编辑  1 添加  0编辑
-      openModel(i) {
-        this.modelShow = true;
-
-      },
+  
       //莫谈框点击确定
       okModel(){
         this.$refs["ruleForm"].validate((valid) => {
           if (valid) {
             console.log('submit!');
             this.modelShow = true;
+             if (this.isAdd) {
+            //添加操作
+            api.addBusinessReceive(this.form).then(res => {
+              console.log(res);
+              this.modelShow = false;
+              this.successMsg();
+              this.getInfo();
+            });
+          } else {
+            //编辑操作
+            api.updateBusinessReceive(this.checkId, this.form).then(res => {
+              console.log(res);
+              this.modelShow = false;
+              this.successMsg();
+              this.getInfo();
+            });
+          }
           } else {
             console.log('error submit!!');
             return false;
           }
         });
       },
-      //点击发送按钮
-      sendClick(row) {
-        console.log(row)
-      },
 
-      //表格选择行
-      tableCurrentChange(row) {
-        console.log(row)
-        console.log(this.$refs.table)
-
-
-      },
+    //删除数据
+    delItem() {
+      if (this.checkId) {
+        api.removeBusinessReceive(this.checkId).then(res => {
+          console.log(res);
+          this.successMsg();
+          this.getInfo();
+        });
+      }
+    },
+ 
 
       //点击搜索按钮
       search(i) {
@@ -166,31 +159,6 @@
 </script>
 
 <style scoped lang='scss'>
-  .Vheader {
-    padding: 0 20px;
-  }
-.searchBox {
-    width: 300px;
-    margin-top: 15px;
-    .select {
-      width: 100px;
-    }
-  }
 
-  .btnGroup {
-    margin-top: 20px;
-    margin-bottom: 20px;
-  }
-
-  // css无效
-  .el-dialog__header{
-    background: #1892d1;
-    span {
-    line-height: 1;
-    font-size: 16px;
-    font-weight: 700;
-    color: #fff;
-    }
-  }
 
 </style>

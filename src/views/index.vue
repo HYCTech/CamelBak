@@ -7,7 +7,7 @@
                     <span class="logo-text">永兴</span>
                 </div>
                 
-                <el-menu unique-opened default-active="2" class="" theme="dark">
+                <el-menu unique-opened default-active="2" unique-opened  class="" theme="dark">
                     <el-submenu index="1">
                         <template slot="title"><i class="el-icon-menu"></i>人员管理</template>
                          <el-submenu index="1-1">
@@ -21,7 +21,6 @@
                         <template slot="title"><i class="el-icon-setting"></i>维修管理</template>
                          <el-submenu index="2-1">
                             <template slot="title">个人维修</template>
-                            <el-menu-item index="2-1-1" @click="$router.push('/index/priWaitCheck')">待审核维修单</el-menu-item>
                             <el-menu-item index="2-1-2" @click="$router.push('/index/priNowService')">正在维修</el-menu-item>
                             <el-menu-item index="2-1-3" @click="$router.push('/index/priDoneService')">已完成维修</el-menu-item>
                             <el-menu-item index="2-1-4" @click="$router.push('/index/priCancelService')">已取消维修</el-menu-item>
@@ -29,18 +28,20 @@
 
                         <el-submenu index="2-2">
                             <template slot="title">公共维修</template>
-                            <el-menu-item index="2-2-1"  @click="$router.push('/index/pubWaitCheck')">待审核维修单</el-menu-item>
                             <el-menu-item index="2-2-2"  @click="$router.push('/index/pubNowService')">正在维修</el-menu-item>
                             <el-menu-item index="2-2-3"  @click="$router.push('/index/pubDoneService')">已完成维修</el-menu-item>
                             <el-menu-item index="2-2-4"  @click="$router.push('/index/pubCancelService')">已取消维修</el-menu-item>
                         </el-submenu>
+                         <el-menu-item index="2-3"  @click="$router.push('/index/waitCheck')">待审核维修单</el-menu-item>
+                          <el-menu-item index="2-4"  @click="$router.push('/index/waitHanding')">待处理维修单</el-menu-item>
+
                     </el-submenu>
 
                     <el-submenu index="3">
                         <template slot="title"><i class="el-icon-edit"></i>统计管理</template>
                          <el-menu-item index="3-1" @click="$router.push('/index/publicAcc')">公共维修材料统计</el-menu-item>
                          <el-menu-item index="3-2" @click="$router.push('/index/proprietirsAcc')">业主家中收费统计</el-menu-item>
-                         <el-menu-item index="3-3" @click="$router.push('/index/repairAcc')">维修完成情况统计</el-menu-item>>
+                         <el-menu-item index="3-3" @click="$router.push('/index/repairAcc')">维修完成情况统计</el-menu-item>
                     </el-submenu>
 
                     <el-submenu index="4">
@@ -61,7 +62,25 @@
             <div class="content">
                 <div class="userInfo">
                   <div class="fr userInfo-c">
-                    <span >小区</span>
+                  <span class="mr25">小区</span>
+
+                   <el-dropdown trigger="click">
+                      <span class="el-dropdown-link">   
+                        <i class="el-icon-message"> <el-badge class="mark" :value="8" /></i>
+                      </span>
+                      <el-dropdown-menu slot="dropdown">
+                        <el-dropdown-item class="clearfix" @click.native="$router.push('/index/waitCheck')">
+                          待审核维修单
+                          <el-badge class="mark" :value="5" />
+                        </el-dropdown-item>
+                        <el-dropdown-item class="clearfix" @click.native="$router.push('/index/waitHanding')">
+                          待处理维修单
+                          <el-badge class="mark" :value="3" />
+                        </el-dropdown-item>
+                      </el-dropdown-menu>
+                    </el-dropdown>
+
+                    
                       <el-dropdown>
                         <span class="el-dropdown-link">
                          <img src="../assets/image/a0.jpg"> {{name}}<i class="el-icon-caret-bottom el-icon--right"></i>
@@ -90,24 +109,28 @@
 </template>
 
 <script>
+import router from "../router/index";
+import * as utils from "../utils/index";
 export default {
   name: "index",
+  mounted() {
+    //this.PATH= utils.changeNav(router.options.routes)
+    console.log(this.PATH, 1);
+  },
   data() {
     return {
-      name:'luban',
-      userPic:''
-     
-    }
+      PATH: [],
+      name: "luban",
+      userPic: ""
+    };
   },
 
-  methods:{
+  methods: {
     //退出登录
-    logOut(){
-      this.$router.push('/login')
+    logOut() {
+      this.$router.push("/login");
     }
   }
-
-
 };
 </script>
 
@@ -156,23 +179,21 @@ export default {
         padding: 0px 20px 0px 220px;
         background: rgb(42, 59, 76);
         height: 50px;
-        .userInfo-c{
-           span{
-              float: left;
-             line-height: 50px;
-             font-size: 16px;
-             color:#fff;
-             cursor: pointer;
-           }
-           img{
-
-             float: left;
-             width: 25px;
-             height: 25px;
-             border-radius:50% ;
-             margin:13px 5px 13px 13px;
-             
-           }
+        .userInfo-c {
+          span {
+            float: left;
+            line-height: 50px;
+            font-size: 16px;
+            color: #fff;
+            cursor: pointer;
+          }
+          img {
+            float: left;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            margin: 13px 5px 13px 13px;
+          }
         }
       }
       .body-title {
@@ -213,7 +234,7 @@ export default {
   }
 }
 
-.el-dropdown-menu{
+.el-dropdown-menu {
   font-size: 12px;
 }
 </style>

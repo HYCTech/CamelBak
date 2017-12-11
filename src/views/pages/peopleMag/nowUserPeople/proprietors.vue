@@ -6,8 +6,8 @@
       <!-- 按钮组 -->
       <div class="btnGroup">
         <el-button type="success" icon="plus" @click="openModel(1)">添加</el-button>
-        <el-button type="info" icon="edit">编辑</el-button>
-        <el-button type="danger" icon="delete">删除</el-button>
+        <el-button type="info" icon="edit" @click="openModel(0)">编辑</el-button>
+        <el-button type="danger" icon="delete" @click="delMsg()">删除</el-button>
       </div>
     </div>
 
@@ -27,33 +27,29 @@
         </el-table-column>
         <el-table-column prop="note" label="备注">
         </el-table-column>
-        <el-table-column fixed="right" label="发送" width="100">
-          <template slot-scope="scope">
-            <el-button @click="sendClick(scope.row)" type="success" size="mini">发送报价</el-button>
-          </template>
-        </el-table-column>
+        
       </el-table>
     </div>
 
     <!-- 分页 -->
-    <PageBar :pageData="pageData" :getData="getProprietorsInfo" ></PageBar>
+    <PageBar :pageData="pageData" :getData="getInfo" ></PageBar>
     <!-- 弹出框 -->
-    <el-dialog title="新增" :visible.sync="modelShow">
+    <el-dialog :title="modelTitle" :visible.sync="modelShow">
       <el-form :model="form" label-width="80px" :rules="rules" ref="ruleForm">
-        <el-form-item label="房号">
-          <el-input></el-input>
+        <el-form-item label="房号" prop="room_number">
+          <el-input  v-model="form.room_number"></el-input>
         </el-form-item>
         <el-form-item label="姓名" prop="owner_name">
           <el-input v-model="form.owner_name"></el-input>
         </el-form-item>
-        <el-form-item label="电话号码">
-          <el-input></el-input>
+        <el-form-item label="电话号码" prop="telephone_number">
+          <el-input  v-model="form.telephone_number"></el-input>
         </el-form-item>
-        <el-form-item label="openId">
-          <el-input></el-input>
+        <el-form-item label="openId" >
+          <el-input  v-model="form.wxopen_id"></el-input>
         </el-form-item>
         <el-form-item label="备注">
-          <el-input></el-input>
+          <el-input  v-model="form.note"></el-input>
         </el-form-item>
 
       </el-form>
@@ -68,96 +64,89 @@
 </template>
 
 <script>
-  import mixin from '../../../../minix/index.js'
-  import * as api from "../../../../api/nowUserPeople/index";
-  export default {
-    name: "proprietors",
-    mixins: [mixin],
-    mounted() {
-      this.getProprietorsInfo()
-    },
-    data() {
-      return {
-        tableData: [], //表格数据 
-        modelShow: false, //莫弹框开关 
-        form: {
-          owner_name:''
-        }, //表单数据 
+import mixin from "@/minix/index.js";
+import * as api from "@/api/nowUserPeople";
+import * as utils from "@/utils/index"
+export default {
+  name: "proprietors",
+  mixins: [mixin],
+  mounted() {
+    this.getInfo();
+  },
+  data() {
+    return {
+      form: {
+        owner_name: "",
+        room_number: "",
+        telephone_number: "",
+        wxopen_id: "",
+        note: ""
+      },
 
-
-        rules: {
-          owner_name: [
-            { required: true, message: '请输入姓名', trigger: 'blur' },
-          ]
-        
-        }
-
-
-      };
-    },
-
-    methods: {
       
-      //点击 添加 或者编辑  1 添加  0编辑
-      openModel(i) {
-        this.modelShow = true;
+    };
+  },
 
-      },
-      //莫谈框点击确定
-      okModel(){
-        this.$refs["ruleForm"].validate((valid) => {
-          if (valid) {
-            console.log('submit!');
-            this.modelShow = true;
-          } else {
-            console.log('error submit!!');
-            return false;
-          }
-        });
-      },
-      //点击发送按钮
-      sendClick(row) {
-        console.log(row)
-      },
+  methods: {
 
-      //表格选择行
-      tableCurrentChange(row) {
-        console.log(row)
-        console.log(this.$refs.table)
-
-
-      },
-
-       //获取分页数据
-      getProprietorsInfo() {
-        api.getProprietorsInfo(this.pageData.page-1,this.pageData.pageSize).then(res => {
+    //获取数据分页
+    getInfo() {
+      api
+        .getProprietorsInfo(this.pageData.page - 1, this.pageData.pageSize)
+        .then(res => {
           console.log(res);
-          this.tableData = res.data
-          this.pageData.total=res.count
-
+          this.tableData = res.data;
+          this.pageData.total = res.count;
         });
-      },
+    },
+    //莫谈框点击确定
+    okModel() {
+      this.$refs["ruleForm"].validate(valid => {
+        if (valid) {
+          console.log("submit!");
+          if (this.isAdd) {
+            //添加操作
+            api.addProprietorsInfo(this.form).then(res => {
+              console.log(res);
+              this.modelShow = false;
+              this.successMsg();
+              this.getInfo();
+            });
+          } else {
+            //编辑操作
+            api.updateProprietorsInfo(this.checkId, this.form).then(res => {
+              console.log(res);
+              this.modelShow = false;
+              this.successMsg();
+              this.getInfo();
+            });
+          }
+        } else {
+          console.log("error submit!!");
+          return false;
+        }
+      });
+    },
 
-     
-      //点击搜索按钮
-      search(i) {
-        console.log(i)
+    //删除数据
+    delItem() {
+      if (this.checkId) {
+        api.removeProprietorsInfo(this.checkId).then(res => {
+          console.log(res);
+          this.successMsg();
+          this.getInfo();
+        });
       }
-    }
-  };
+    },
 
+    //点击搜索按钮
+    search(i) {
+      console.log(i);
+    }
+  }
+};
 </script>
 
 <style scoped lang='scss'>
-  .Vheader {
-    padding: 0 20px;
-  }
-
-
-
-  .btnGroup {
-    margin-top: 20px;
-    margin-bottom: 20px;
-  }
 
 </style>

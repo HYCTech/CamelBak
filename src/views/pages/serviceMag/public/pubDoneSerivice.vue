@@ -82,7 +82,7 @@
   import mixin from '../../../../minix/index.js'
   import * as api from "../../../../api/voteManagement";
   export default {
-    name: "inquiry",
+    name: "pubDoneSerivice",
     components: {
       
     },
@@ -189,31 +189,6 @@
 </script>
 
 <style scoped lang='scss'>
-  .Vheader {
-    padding: 0 20px;
-  }
-.searchBox {
-    width: 300px;
-    margin-top: 15px;
-    .select {
-      width: 100px;
-    }
-  }
 
-  .btnGroup {
-    margin-top: 20px;
-    margin-bottom: 20px;
-  }
-
-  // css无效
-  .el-dialog__header{
-    background: #1892d1;
-    span {
-    line-height: 1;
-    font-size: 16px;
-    font-weight: 700;
-    color: #fff;
-    }
-  }
 
 </style>
