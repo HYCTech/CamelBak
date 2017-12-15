@@ -6,27 +6,27 @@ import * as api from '../api'
 Vue.use(Vuex)
 
 let state = {
-    text:1
+    loading: false,
+    
 }
 
 let actions={
-    setText({ commit },info){
-         commit('SET_TEXT', info);
+    setLoading({ commit }, loading) {
+        commit('SET_LOADING', loading)
     },
+    
        
 }
 
 let mutations = {
-    SET_TEXT(state,info){
-        state.text = info;
+    SET_LOADING(state, loading) {
+        state.loading = loading
     },
+   
     
 }
 let getters = {
-    text(state){
-        return state.text+='o'
-
-    }
+ 
 
 
 }

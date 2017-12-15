@@ -14,7 +14,7 @@
     <!-- 表格 -->
     <div>
      <el-table highlight-current-row :data="tableData" border style="width: 100%" ref="table" :default-sort="{prop: 'date', order: 'descending'}"
-        @current-change="tableCurrentChange">
+        @current-change="tableCurrentChange" v-loading.body="loading">
         <el-table-column type="selection" width="55">
         </el-table-column>
         <el-table-column prop="room_number" label="房号" width="100">
@@ -79,6 +79,7 @@
 </template>
 
 <script>
+
   import mixin from '../../../../minix/index.js'
   import * as api from "../../../../api/repairManagement";
   export default {
@@ -92,6 +93,7 @@
     },
      data() {
       return {
+        loding:this.$store.state.loading,
         form: {
           room_number:'',
           owner_name:'',
@@ -105,7 +107,7 @@
     },
 
    methods: {
-
+     
       //获取分页数据
       getInfo() {
         api.getRepairInfo(this.pageData.page-1,this.pageData.pageSize).then(res => {
@@ -163,7 +165,8 @@
       search(i) {
         console.log(i)
       }
-    }
+    },
+  
   };
 
 </script>

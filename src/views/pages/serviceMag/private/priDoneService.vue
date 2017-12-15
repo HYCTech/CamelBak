@@ -14,7 +14,7 @@
     <!-- 表格 -->
     <div>
       <el-table highlight-current-row :data="tableData" border style="width: 100%"  ref="table" 
-      :default-sort="{prop: 'date', order: 'descending'}" @current-change="tableCurrentChange">
+      :default-sort="{prop: 'date', order: 'descending'}" @current-change="tableCurrentChange" v-loading.body="loading">
         <el-table-column type="selection" width="55">
         </el-table-column>
         <el-table-column prop="room_number" label="房号" width="100">

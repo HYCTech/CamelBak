@@ -4,11 +4,9 @@ import store from '@/store'
 import config from '@/config'
 import router from '../router'
 import { Loading ,Message} from 'element-ui';
-// import mixin from '../minix/index.js'
 
-//let loadingInstance = Loading.service({ fullscreen: true });
-let loadingInstance = null;
-//loadingInstance.close();
+
+
 const requests = []
 
 export default (Vue) => {
@@ -22,10 +20,9 @@ export default (Vue) => {
     axios.defaults.timeout = 50000
         // 添加拦截器
     axios.interceptors.request.use(function(config) {
-        loadingInstance = Loading.service({ fullscreen: true });
-       
-       // console.log(`${config.url}--begin`)
+      
         requests.push(config)
+         store.dispatch('setLoading', true)
         return config
     }, function(error) {
         this.$message({
@@ -33,7 +30,6 @@ export default (Vue) => {
             message: '系统出错了哦',
             type: 'error'
           });
-        loadingInstance.close();
         return Promise.reject(error)
     })
 
@@ -41,13 +37,16 @@ export default (Vue) => {
 
 
 
-    axios.interceptors.response.use(function(response) {
-        loadingInstance.close();
-      
-        //console.log(`${response.config.url}--end`)
+    axios.interceptors.response.use(function(response) {  
         _.remove(requests, r => {
             return r === response.config
         }) 
+        if (!requests.length) {
+            setTimeout(() => {
+                 store.dispatch('setLoading', false)
+            }, 300)
+        }
+
         return response.data
     }, function(error) {
     
@@ -57,28 +56,25 @@ export default (Vue) => {
             type: 'error'
           });
 
-        loadingInstance.close();
         if (error.response) {
             
             console.log(error.response.status)
             switch (error.response.status) {
                 case 401:
-
                     console.log("401 未授权");
                     break;
                 case 500:
-                    console.log('账号密码出错');
+                    console.log('500');
                     break;
                  
                 default:
                     console.log("发生错误了");
-
             }
 
         } else {
             console.log('超时')
         }
-        
+        store.dispatch('setLoading', false)
         return Promise.reject(error)
 
     })

@@ -11,11 +11,15 @@ import 'element-ui/lib/theme-default/index.css'
 import './assets/css/base.scss'
 
 import cookie from 'cookies-js'
-import utils  from './utils/index'
+import utils from './utils/index'
+import echarts from 'echarts'
 
 
 window.Cookies = cookie;
 Vue.config.productionTip = false
+
+
+Vue.prototype.$echarts = echarts
 
 Vue.use(ElementUI)
 
@@ -26,7 +30,23 @@ Vue.use(plugin, {});
 
 //路由拦截
 router.beforeEach((to, from, next) => {
-    next();
+
+  let ui = Cookies('UI')
+  let userInfo = null
+  console.log(!ui && !to.meta.auth)
+  if (!to.meta.auth && !ui) {
+    next({
+      path: '/login',
+      query: {
+        redirect: to.fullPath
+      }
+    })
+  }else {
+    next()
+  }
+
+
+
 })
 
 /* eslint-disable no-new */
@@ -35,5 +55,7 @@ new Vue({
   router,
   store,
   template: '<App/>',
-  components: { App }
+  components: {
+    App
+  }
 })

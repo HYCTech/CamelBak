@@ -7,7 +7,7 @@
                     <span class="logo-text">永兴</span>
                 </div>
                 
-                <el-menu unique-opened default-active="2-1-2" unique-opened  class="" theme="dark">
+                <el-menu unique-opened :default-active="active" unique-opened  class="" theme="dark">
                     <el-submenu index="1">
                         <template slot="title"><i class="el-icon-menu"></i>人员管理</template>
                          <el-submenu index="1-1">
@@ -21,16 +21,16 @@
                         <template slot="title"><i class="el-icon-setting"></i>维修管理</template>
                          <el-submenu index="2-1">
                             <template slot="title">个人维修</template>
-                            <el-menu-item index="2-1-2" @click="$router.push('/index/priNowService')">正在维修</el-menu-item>
-                            <el-menu-item index="2-1-3" @click="$router.push('/index/priDoneService')">已完成维修</el-menu-item>
-                            <el-menu-item index="2-1-4" @click="$router.push('/index/priCancelService')">已取消维修</el-menu-item>
+                            <el-menu-item index="2-1-1" @click="$router.push('/index/priNowService')">正在维修</el-menu-item>
+                            <el-menu-item index="2-1-2" @click="$router.push('/index/priDoneService')">已完成维修</el-menu-item>
+                            <el-menu-item index="2-1-3" @click="$router.push('/index/priCancelService')">已取消维修</el-menu-item>
                         </el-submenu>
 
                         <el-submenu index="2-2">
                             <template slot="title">公共维修</template>
-                            <el-menu-item index="2-2-2"  @click="$router.push('/index/pubNowService')">正在维修</el-menu-item>
-                            <el-menu-item index="2-2-3"  @click="$router.push('/index/pubDoneService')">已完成维修</el-menu-item>
-                            <el-menu-item index="2-2-4"  @click="$router.push('/index/pubCancelService')">已取消维修</el-menu-item>
+                            <el-menu-item index="2-2-1"  @click="$router.push('/index/pubNowService')">正在维修</el-menu-item>
+                            <el-menu-item index="2-2-2"  @click="$router.push('/index/pubDoneService')">已完成维修</el-menu-item>
+                            <el-menu-item index="2-2-3"  @click="$router.push('/index/pubCancelService')">已取消维修</el-menu-item>
                         </el-submenu>
                          <el-menu-item index="2-3"  @click="$router.push('/index/waitCheck')">待验收维修单</el-menu-item>
                           <el-menu-item index="2-4"  @click="$router.push('/index/waitHanding')">待处理维修单</el-menu-item>
@@ -52,21 +52,20 @@
 
                     <el-submenu index="5">
                         <template slot="title"><i class="el-icon-message"></i>业务收发</template>
-                         <el-menu-item index="4-1" @click="$router.push('/index/order')">接单</el-menu-item>
-                         <el-menu-item index="4-2" @click="$router.push('/index/acceptance')">验收</el-menu-item>
+                         <el-menu-item index="5-1" @click="$router.push('/index/order')">接单</el-menu-item>
+                         <el-menu-item index="5-2" @click="$router.push('/index/acceptance')">验收</el-menu-item>
                     </el-submenu>
-                    <el-menu-item index="6" @click="$router.push('/index/notice')">
-                        <template slot="title"><i class="el-icon-warning"></i>通知</template>
-                    </el-menu-item>
-                    <el-menu-item index="7" @click="$router.push('/index/setting')">
-                        <template slot="title"><i class="el-icon-setting"></i>设置</template>
-                    </el-menu-item>
+                     <el-menu-item index="6" @click="$router.push('/index/notice')"><i class="el-icon-warning"></i>通知</el-menu-item>
+                      <el-menu-item index="7" @click="$router.push('/index/setting')"><i class="el-icon-setting"></i>设置</el-menu-item>
+                 
 
                 </el-menu>
 
             </div>
             <div class="content">
                 <div class="userInfo">
+                   <el-button class="mt10 pr10 pl10" type="text" :loading="loading"></el-button>
+                 
                   <div class="fr userInfo-c">
                   <span class="mr25">小区</span>
 
@@ -89,7 +88,7 @@
                     
                       <el-dropdown>
                         <span class="el-dropdown-link">
-                         <img src="../assets/image/a0.jpg"> {{name}}<i class="el-icon-caret-bottom el-icon--right"></i>
+                         <img src="../assets/image/a0.jpg"> {{ui.name}}<i class="el-icon-caret-bottom el-icon--right"></i>
                         </span>
                         <el-dropdown-menu slot="dropdown">
                           <el-dropdown-item @click.native="$router.push('/index/userInfo')">个人资料</el-dropdown-item>
@@ -98,6 +97,7 @@
                           
                         </el-dropdown-menu>
                       </el-dropdown>
+                      
                   </div>
                 </div>
                 <div class="body-title">{{$route.name}}</div>
@@ -117,26 +117,33 @@
 <script>
 import router from "../router/index";
 import * as utils from "../utils/index";
+import {  mapState } from 'vuex'
 export default {
   name: "index",
   mounted() {
     //this.PATH= utils.changeNav(router.options.routes)
-    console.log(this.PATH, 1);
+    //console.log(this.PATH, 1);
   },
   data() {
     return {
       PATH: [],
-      name: "luban",
-      userPic: ""
+      ui:JSON.parse(Cookies('UI')),
+      userPic: "",
+      active: this.$route.meta.index
     };
   },
 
   methods: {
     //退出登录
     logOut() {
+      Cookies.set('Token','')
+      Cookies.set('UI','')
       this.$router.push("/login");
     }
-  }
+  },
+  computed:{
+    ...mapState(['loading']),   
+  },
 };
 </script>
 

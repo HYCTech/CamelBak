@@ -33,7 +33,7 @@
         </el-table-column>
         <el-table-column prop="note" label="合计">
         </el-table-column>
-        <el-table-column prop="note" label="是否验收" width="120">
+        <el-table-column prop="note" label="是否接单" width="120">
         </el-table-column>
         
       </el-table>

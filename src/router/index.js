@@ -48,7 +48,8 @@ export default new Router({
     {
       path: '/login',
       name: 'login',
-      component: login
+      component: login,
+      meta:{auth:true}
 
     },
     
@@ -59,8 +60,8 @@ export default new Router({
       title: '正在使用人员',
       menu:true,
       children: [
-        { path: '/index/proprietors', name: '业主', component: proprietors },
-        { path: '/index/propertyOfc', name: '物业处人员', component: propertyOfc }
+        { path: '/index/proprietors', name: '业主', component: proprietors ,meta:{index:'1-1-1'}},
+        { path: '/index/propertyOfc', name: '物业处人员', component: propertyOfc ,meta:{index:'1-1-2'} }
       ]
     },
     {
@@ -70,9 +71,9 @@ export default new Router({
       title: '个人维修',
       menu:true,
       children: [
-        { path: '/index/priNowService', name: '正在维修', component: priNowService  },
-        { path: '/index/priDoneService', name: '已完成维修', component: priDoneService },
-        { path: '/index/priCancelService', name: '已取消维修', component: priCancelService },
+        { path: '/index/priNowService', name: '正在维修', component: priNowService ,meta:{index:'2-1-1'} },
+        { path: '/index/priDoneService', name: '已完成维修', component: priDoneService ,meta:{index:'2-1-2'}},
+        { path: '/index/priCancelService', name: '已取消维修', component: priCancelService ,meta:{index:'2-1-3'}},
       ]
     },
     {
@@ -82,8 +83,8 @@ export default new Router({
       menu:true,
 
       children: [
-        { path: '/index/waitCheck', name: '待审核维修单', component: waitCheck },
-        { path: '/index/waitHanding', name: '待处理维修单', component: waitHanding }, 
+        { path: '/index/waitCheck', name: '待审核维修单', component: waitCheck ,meta:{index:'2-3'}},
+        { path: '/index/waitHanding', name: '待处理维修单', component: waitHanding ,meta:{index:'2-4'}}, 
       ]
     },
     {
@@ -93,9 +94,9 @@ export default new Router({
       title: '公共维修',
       menu:true,
       children: [
-        { path: '/index/pubNowService', name: '正在维修', component: pubNowService },
-        { path: '/index/pubDoneService', name: '已完成维修', component: pubDoneSerivice },
-        { path: '/index/pubCancelService', name: '已取消维修', component: pubCancelService },
+        { path: '/index/pubNowService', name: '正在维修', component: pubNowService ,meta:{index:'2-2-1'}},
+        { path: '/index/pubDoneService', name: '已完成维修', component: pubDoneSerivice ,meta:{index:'2-2-2'}},
+        { path: '/index/pubCancelService', name: '已取消维修', component: pubCancelService ,meta:{index:'2-2-3'}},
       ]
     },
     {
@@ -104,9 +105,9 @@ export default new Router({
       component: index,
       menu:true,
       children: [
-        { path: '/index/publicAcc', name: '公共维修材料统计', component: publicAcc},
-        { path: '/index/proprietirsAcc', name: '业主家中收费统计', component: proprietirsAcc },
-        { path: '/index/repairAcc', name: '维修完成情况统计', component: repairAcc }
+        { path: '/index/publicAcc', name: '公共维修材料统计', component: publicAcc ,meta:{index:'3-1'}},
+        { path: '/index/proprietirsAcc', name: '业主家中收费统计', component: proprietirsAcc ,meta:{index:'3-2'}},
+        { path: '/index/repairAcc', name: '维修完成情况统计', component: repairAcc,meta:{index:'3-3'} }
       ]
     },
     {
@@ -115,8 +116,8 @@ export default new Router({
       component: index,
       menu:true,
       children: [
-        { path: '/index/inquiry', name: '大项维修意见征询', component: inquiry},
-        { path: '/index/vote', name: '业主投票', component: vote }
+        { path: '/index/inquiry', name: '大项维修意见征询', component: inquiry,meta:{index:'4-1'}},
+        { path: '/index/vote', name: '业主投票', component: vote,meta:{index:'4-2'} }
       ]
     },
     {
@@ -125,8 +126,8 @@ export default new Router({
       component: index,
       menu:true,
       children: [
-        { path: '/index/order', name: '接单', component: order },
-        { path: '/index/acceptance', name: '验收', component: acceptance }
+        { path: '/index/order', name: '接单', component: order ,meta:{index:'5-1'}},
+        { path: '/index/acceptance', name: '验收', component: acceptance,meta:{index:'5-2'} }
       ]
     },
 
@@ -144,7 +145,7 @@ export default new Router({
       name: '通知',
       component: index,
       children: [
-        { path: '/index/notice', name: '通知', component: notice },
+        { path: '/index/notice', name: '通知', component: notice ,meta:{index:'6'}},
        
       ]
     },
@@ -153,7 +154,7 @@ export default new Router({
       name: '设置',
       component: index,
       children: [
-        { path: '/index/setting', name: '设置', component: setting },
+        { path: '/index/setting', name: '设置', component: setting ,meta:{index:'7'}},
        
       ]
     },

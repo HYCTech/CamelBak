@@ -1,5 +1,6 @@
 
 import * as utils from '../utils/index'
+import { mapActions, mapState,mapMutations,mapGetters } from 'vuex'
 export default{
   data() {
     return {
@@ -16,7 +17,7 @@ export default{
       pageData: {
         page: 1,
         pageSize: 5,
-        total: 10
+        total: 1
       },
 
       //新增/修改维修单表单验证规则
@@ -114,6 +115,9 @@ export default{
       if(row){
         this.editIten = row
         this.checkId=row._id
+      }else{
+        this.editIten = {}
+        this.checkId=""
       }
     },
     //点击 添加 或者编辑  1 添加  0编辑
@@ -165,5 +169,8 @@ export default{
       }).catch()
     }
   }
-  }
+  },
+  computed:{
+    ...mapState(['loading']),   
+  },
 }
