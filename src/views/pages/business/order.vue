@@ -17,23 +17,23 @@
         @current-change="tableCurrentChange">
         <el-table-column type="selection" width="55">
         </el-table-column>
-        <el-table-column prop="department" label="地方" >
+        <el-table-column prop="department" label="单号" >
         </el-table-column>
-        <el-table-column prop="employee_name" label="姓名" >
+        <el-table-column prop="employee_name" label="接单员" >
         </el-table-column>
-        <el-table-column prop="employee_name" label="类别">
+        <el-table-column prop="employee_name" label="联系方式">
         </el-table-column>
-        <el-table-column prop="telephone_number" label="联系方式">
+        <el-table-column prop="telephone_number" label="维修位置">
         </el-table-column>
-        <el-table-column prop="position" label="日期">
+        <el-table-column prop="position" label="内容">
         </el-table-column>
-        <el-table-column prop="wxopen_id" label="内容">
+        <el-table-column prop="wxopen_id" label="材料费">
         </el-table-column>
-        <el-table-column prop="note" label="图片">
+        <el-table-column prop="note" label="维修费">
         </el-table-column>
-        <el-table-column prop="note" label="报价">
+        <el-table-column prop="note" label="合计">
         </el-table-column>
-        <el-table-column prop="note" label="确认完成维修" width="120">
+        <el-table-column prop="note" label="是否验收" width="120">
         </el-table-column>
         
       </el-table>

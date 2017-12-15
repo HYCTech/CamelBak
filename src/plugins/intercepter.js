@@ -4,7 +4,7 @@ import store from '@/store'
 import config from '@/config'
 import router from '../router'
 import { Loading ,Message} from 'element-ui';
-
+// import mixin from '../minix/index.js'
 
 //let loadingInstance = Loading.service({ fullscreen: true });
 let loadingInstance = null;

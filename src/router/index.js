@@ -28,6 +28,9 @@ import vote from '../views/pages/voteMag/proprietorsVote.vue'
 import order from '../views/pages/business/order.vue'
 import acceptance from '../views/pages/business/acceptance.vue'
 
+import notice from '../views/pages/notice/notice.vue'
+import setting from '../views/pages/settting/setting.vue'
+
 import userInfo from '../views/userInfo.vue'
 
 
@@ -67,7 +70,7 @@ export default new Router({
       title: '个人维修',
       menu:true,
       children: [
-        { path: '/index/priNowService', name: '正在维修', component: priNowService },
+        { path: '/index/priNowService', name: '正在维修', component: priNowService  },
         { path: '/index/priDoneService', name: '已完成维修', component: priDoneService },
         { path: '/index/priCancelService', name: '已取消维修', component: priCancelService },
       ]
@@ -133,6 +136,24 @@ export default new Router({
       component: index,
       children: [
         { path: '/index/userInfo', name: '个人信息', component: userInfo },
+       
+      ]
+    },
+    {
+      path: '/index',
+      name: '通知',
+      component: index,
+      children: [
+        { path: '/index/notice', name: '通知', component: notice },
+       
+      ]
+    },
+    {
+      path: '/index',
+      name: '设置',
+      component: index,
+      children: [
+        { path: '/index/setting', name: '设置', component: setting },
        
       ]
     },

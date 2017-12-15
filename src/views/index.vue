@@ -7,7 +7,7 @@
                     <span class="logo-text">永兴</span>
                 </div>
                 
-                <el-menu unique-opened default-active="2" unique-opened  class="" theme="dark">
+                <el-menu unique-opened default-active="2-1-2" unique-opened  class="" theme="dark">
                     <el-submenu index="1">
                         <template slot="title"><i class="el-icon-menu"></i>人员管理</template>
                          <el-submenu index="1-1">
@@ -32,7 +32,7 @@
                             <el-menu-item index="2-2-3"  @click="$router.push('/index/pubDoneService')">已完成维修</el-menu-item>
                             <el-menu-item index="2-2-4"  @click="$router.push('/index/pubCancelService')">已取消维修</el-menu-item>
                         </el-submenu>
-                         <el-menu-item index="2-3"  @click="$router.push('/index/waitCheck')">待审核维修单</el-menu-item>
+                         <el-menu-item index="2-3"  @click="$router.push('/index/waitCheck')">待验收维修单</el-menu-item>
                           <el-menu-item index="2-4"  @click="$router.push('/index/waitHanding')">待处理维修单</el-menu-item>
 
                     </el-submenu>
@@ -55,6 +55,12 @@
                          <el-menu-item index="4-1" @click="$router.push('/index/order')">接单</el-menu-item>
                          <el-menu-item index="4-2" @click="$router.push('/index/acceptance')">验收</el-menu-item>
                     </el-submenu>
+                    <el-menu-item index="6" @click="$router.push('/index/notice')">
+                        <template slot="title"><i class="el-icon-warning"></i>通知</template>
+                    </el-menu-item>
+                    <el-menu-item index="7" @click="$router.push('/index/setting')">
+                        <template slot="title"><i class="el-icon-setting"></i>设置</template>
+                    </el-menu-item>
 
                 </el-menu>
 

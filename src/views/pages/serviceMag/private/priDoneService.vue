@@ -13,8 +13,8 @@
 
     <!-- 表格 -->
     <div>
-      <el-table highlight-current-row :data="tableData" border style="width: 100%" ref="table" :default-sort="{prop: 'date', order: 'descending'}"
-        @current-change="tableCurrentChange">
+      <el-table highlight-current-row :data="tableData" border style="width: 100%"  ref="table" 
+      :default-sort="{prop: 'date', order: 'descending'}" @current-change="tableCurrentChange">
         <el-table-column type="selection" width="55">
         </el-table-column>
         <el-table-column prop="room_number" label="房号" width="100">
@@ -86,87 +86,83 @@ export default {
   mounted() {
     this.getInfo();
   },
-  data() {
-    return {
-    
-     
-      //表单数据
-      form: {
-        room_number: "",
-        repair_name: "",
-        tel_phone: "",
-        datetime: "",
-        repair_content: "",
-        repair_price:""
-      }, 
+   data() {
+      return {
+        form: {
+          room_number:'',
+          owner_name:'',
+          telephone_number:'',
+          creattime:'',
+          content:'',
+          decision:''
+        }, //表单数据 
 
-    
-    };
-  },
+      
 
-  methods: { 
 
-    //获取分页数据
-    getInfo() {
-      api.getRepairInfo(this.pageData.page - 1, this.pageData.pageSize)
-        .then(res => {
+      };
+    },
+
+    methods: {
+
+      //获取分页数据
+      getInfo() {
+        api.getRepairInfo(this.pageData.page-1,this.pageData.pageSize).then(res => {
           console.log(res);
-          this.tableData = res.data;
-          this.pageData.total = res.count;
+          this.tableData = res.data
+          this.pageData.total=res.count
+
         });
-    },
-    
-
-   
-    //莫谈框点击确定（确定新增或者修改）
-    okModel() {
-      this.$refs["ruleForm"].validate(valid => {
-        if (valid) {
-          console.log("submit!");
-          if(this.isAdd){
-            //添加操作
-            api.addRepair(this.form).then(res=>{
-              console.log(res)
-              this.modelShow=false
-              this.successMsg()
-              this.getInfo()
-            })
-          }else{
-            //编辑操作
-            api.updateRepair(this.checkId,this.form).then(res=>{
-              console.log(res)
-              this.modelShow=false
-              this.successMsg()
-              this.getInfo()
-            })
-          }
-        } else {
-          console.log("error submit!!");
-          return false;
-        }
-      });
-    },
-    
-    //删除数据
-    delItem(){
-      if(this.checkId){
-        api.removeRepair(this.checkId).then(res=>{
-          console.log(res)
-          this.successMsg()
-          this.getInfo()
-
-        })
-      }
-     
-    },
+      },
+      
   
+      //莫谈框点击确定
+      okModel(){
+        this.$refs["ruleForm"].validate((valid) => {
+          if (valid) {
+            console.log('submit!');
+            this.modelShow = true;
+             if (this.isAdd) {
+            //添加操作
+            api.addRepair(this.form).then(res => {
+              console.log(res);
+              this.modelShow = false;
+              this.successMsg();
+              this.getInfo();
+            });
+          } else {
+            //编辑操作
+            api.updateRepair(this.checkId, this.form).then(res => {
+              console.log(res);
+              this.modelShow = false;
+              this.successMsg();
+              this.getInfo();
+            });
+          }
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
+      },
 
+    //删除数据
+    delItem() {
+      if (this.checkId) {
+        api.removeRepair(this.checkId).then(res => {
+          console.log(res);
+          this.successMsg();
+          this.getInfo();
+        });
+      }
+    },
+ 
 
-    //点击搜索按钮
-    search(i) {
-      console.log(i);
+      //点击搜索按钮
+      search(i) {
+        console.log(i)
+      }
     }
-  }
 };
 </script>
 

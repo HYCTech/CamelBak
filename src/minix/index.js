@@ -9,7 +9,7 @@ export default{
       modelTitle: '新增', //莫态框标题
       isAdd: false, //是否为添加模态框,
       checkId: '', //选择的id （用来编辑、删除）
-
+      // loading:'',
       editIten:{}, //要编辑的内容（模拟*）
     
       //分页数据
@@ -141,7 +141,7 @@ export default{
 
   //表格展示格式  (日期)
   formatData: function (row, column) {
-      return row.datetime.slice(0,10)
+      return (row.datetime +"").slice(0,10)
   },
     
   //成功提示窗口

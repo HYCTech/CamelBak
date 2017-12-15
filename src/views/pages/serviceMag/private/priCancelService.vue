@@ -13,7 +13,7 @@
 
     <!-- 表格 -->
     <div>
-      <el-table highlight-current-row :data="tableData" border style="width: 100%" ref="table" :default-sort="{prop: 'date', order: 'descending'}"
+     <el-table highlight-current-row :data="tableData" border style="width: 100%" ref="table" :default-sort="{prop: 'date', order: 'descending'}"
         @current-change="tableCurrentChange">
         <el-table-column type="selection" width="55">
         </el-table-column>
@@ -21,51 +21,50 @@
         </el-table-column>
         <el-table-column prop="owner_name" label="姓名" width="100">
         </el-table-column>
-        <el-table-column prop="telephone_number" label="电话号码" width="150">
+        <el-table-column prop="tel_phone" label="电话号码" width="150">
         </el-table-column>
-        <el-table-column prop="creattime" label="日期" width="150">
+        <el-table-column prop="datetime" label="日期" width="150">
         </el-table-column>
-        <el-table-column prop="content" label="内容" width="150">
+        <el-table-column prop="repair_content" label="内容" width="150">
         </el-table-column>
         <el-table-column prop="content" label="图片">
+          <template slot-scope="props">
+            <img :src="props.row.picServerId" class="img-style"/>
+          </template>
         </el-table-column>
-        <el-table-column prop="decision" label="是否同意维修">
+        <el-table-column prop="repair_price" label="报价">
         </el-table-column>
-        <el-table-column prop="content" label="状态">
-        </el-table-column>
-        <el-table-column fixed="right"  label="类别" width="100">
-          
+        <el-table-column fixed="right"  label="发送" width="100">
+          <template slot-scope="scope">
+            <el-button @click="sendClick(scope.row)" type="success" size="mini">发送报价</el-button>
+          </template>
         </el-table-column>
       </el-table>
     </div>
 
     <!-- 分页 -->
-     <PageBar :pageData="pageData" :getData="getProprietorsInfo" ></PageBar>
+    <PageBar :pageData="pageData" :getData="getInfo" ></PageBar>
 
     <!-- 弹出框 -->
     <el-dialog :title="modelTitle" :visible.sync="modelShow">
       <el-form :model="form" label-width="80px" :rules="rules" ref="ruleForm">
         <el-form-item label="房号" prop="room_number">
-          <el-input></el-input>
+          <el-input v-model="form.room_number"></el-input>
         </el-form-item>
         <el-form-item label="姓名" prop="owner_name">
           <el-input v-model="form.owner_name"></el-input>
         </el-form-item>
-        <el-form-item label="电话号码" prop="telephone_number">
-          <el-input></el-input>
+        <el-form-item label="电话号码" prop="tel_phone">
+          <el-input v-model="form.tel_phone"></el-input>
         </el-form-item>
         <el-form-item label="日期">
-         <el-date-picker type="date" placeholder="选择日期" v-model="date" style="width: 100%;"></el-date-picker>
+         <el-date-picker type="date" placeholder="选择日期" v-model="form.date" style="width: 100%;"></el-date-picker>
         </el-form-item>
         <el-form-item label="内容">
-          <el-input></el-input>
+          <el-input v-model="form.repair_content"></el-input>
         </el-form-item>
-        <el-form-item label="状态">
-          <el-select v-model="form.region" placeholder="请选择" style="width: 100%;">
-          <el-option label="受里中" value="doing"></el-option>
-          <el-option label="已完成" value="done"></el-option>
-          <el-option label="已取消" value="cancel"></el-option>
-          </el-select>
+        <el-form-item label="报价">
+          <el-input v-model="form.repair_price"></el-input>
         </el-form-item>
 
       </el-form>
@@ -81,7 +80,7 @@
 
 <script>
   import mixin from '../../../../minix/index.js'
-  import * as api from "../../../../api/voteManagement";
+  import * as api from "../../../../api/repairManagement";
   export default {
     name: "priCancelService",
     components: {
@@ -89,50 +88,27 @@
     },
     mixins: [mixin],
     mounted() {
-      this.getProprietorsInfo()
+      this.getInfo()
     },
-    data() {
+     data() {
       return {
-        searchVal: {
-          value: "",
-          select: ""
-        },
-        tableData: [], //表格数据 
-        modelShow: false, //莫弹框开关 
-        date:'',//选择时间
         form: {
           room_number:'',
           owner_name:'',
-          telephone_number:'',
+          tel_phone:'',
           creattime:'',
-          content:''
+          repair_content:'',
+          repair_price:'',
+          date:''
         }, //表单数据 
-
-        rules: {
-          owner_name: [
-            { required: true, message: '请输入姓名', trigger: 'blur' }, 
-          ],
-          room_number:[
-            { required: true, message: '请输入房号', trigger: 'blur' }, 
-          ],
-          telephone_number:[
-            { required: true, message: '请输入电话号码', trigger: 'blur' }, 
-          ]
-        
-        }
-
-
       };
     },
 
-    methods: {
+   methods: {
 
-      click(){
-        this.onsearch(this.search)
-      },
       //获取分页数据
-      getProprietorsInfo() {
-        api.getBusinessReceive(this.pageData.page-1,this.pageData.pageSize).then(res => {
+      getInfo() {
+        api.getRepairInfo(this.pageData.page-1,this.pageData.pageSize).then(res => {
           console.log(res);
           this.tableData = res.data
           this.pageData.total=res.count
@@ -140,45 +116,48 @@
         });
       },
       
-      //点击 添加 或者编辑  1 添加  0编辑
-      openModel(i) {
-        this.modelShow = true;
-
-      },
+  
       //莫谈框点击确定
       okModel(){
         this.$refs["ruleForm"].validate((valid) => {
           if (valid) {
             console.log('submit!');
             this.modelShow = true;
+             if (this.isAdd) {
+            //添加操作
+            api.addRepair(this.form).then(res => {
+              console.log(res);
+              this.modelShow = false;
+              this.successMsg();
+              this.getInfo();
+            });
+          } else {
+            //编辑操作
+            api.updateRepair(this.checkId, this.form).then(res => {
+              console.log(res);
+              this.modelShow = false;
+              this.successMsg();
+              this.getInfo();
+            });
+          }
           } else {
             console.log('error submit!!');
             return false;
           }
         });
       },
-      //点击发送按钮
-      sendClick(row) {
-        console.log(row)
-      },
 
-      //表格选择行
-      tableCurrentChange(row) {
-        console.log(row)
-        console.log(this.$refs.table)
-
-
-      },
-
-      //改变每页条数
-      pageSizeChange(val) {
-        console.log(`每页 ${val} 条`);
-      },
-
-      //翻页
-      pageCurrentChange(val) {
-        console.log(`当前页: ${val}`);
-      },
+    //删除数据
+    delItem() {
+      if (this.checkId) {
+        api.removeRepair(this.checkId).then(res => {
+          console.log(res);
+          this.successMsg();
+          this.getInfo();
+        });
+      }
+    },
+ 
 
       //点击搜索按钮
       search(i) {
@@ -190,6 +169,6 @@
 </script>
 
 <style scoped lang='scss'>
-
+ 
 
 </style>

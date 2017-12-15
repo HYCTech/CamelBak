@@ -17,23 +17,23 @@
         @current-change="tableCurrentChange">
         <el-table-column type="selection" width="55">
         </el-table-column>
-        <el-table-column prop="department" label="地方" >
+        <el-table-column prop="department" label="单号" >
         </el-table-column>
-        <el-table-column prop="employee_name" label="姓名" >
+        <el-table-column prop="employee_name" label="接单员" >
         </el-table-column>
-        <el-table-column prop="employee_name" label="类别">
+        <el-table-column prop="employee_name" label="联系方式">
         </el-table-column>
-        <el-table-column prop="telephone_number" label="联系方式">
+        <el-table-column prop="telephone_number" label="维修位置">
         </el-table-column>
-        <el-table-column prop="position" label="日期">
+        <el-table-column prop="position" label="内容">
         </el-table-column>
-        <el-table-column prop="wxopen_id" label="内容">
+        <el-table-column prop="wxopen_id" label="材料费">
         </el-table-column>
-        <el-table-column prop="note" label="图片">
+        <el-table-column prop="note" label="维修修费">
         </el-table-column>
-        <el-table-column prop="note" label="报价">
+        <el-table-column prop="note" label="合计">
         </el-table-column>
-        <el-table-column prop="note" label="确认完成维修" width="120">
+        <el-table-column prop="note" label="是否接单" width="120">
         </el-table-column>
         
       </el-table>
@@ -44,22 +44,25 @@
     <!-- 弹出框 -->
     <el-dialog :title="modelTitle" :visible.sync="modelShow">
       <el-form :model="form" label-width="80px" :rules="rules" ref="ruleForm">
-        <el-form-item label="部门" prop="department">
+        <el-form-item label="单号" prop="department">
           <el-input v-model="form.department"></el-input>
         </el-form-item>
-        <el-form-item label="姓名" prop="employee_name">
+        <el-form-item label="接单员" prop="employee_name">
           <el-input v-model="form.employee_name"></el-input>
         </el-form-item>
         <el-form-item label="联系方式" prop="telephone_number">
           <el-input v-model="form.telephone_number"></el-input>
         </el-form-item>
-         <el-form-item label="职务" prop="position" >
+         <el-form-item label="维修位置" prop="position" >
           <el-input v-model="form.position"></el-input>
         </el-form-item>
-        <el-form-item label="openId">
+        <el-form-item label="内容">
           <el-input v-model="form.wxopen_id"></el-input>
         </el-form-item>
-        <el-form-item label="备注">
+        <el-form-item label="材料费">
+          <el-input v-model="form.note"></el-input>
+        </el-form-item>
+        <el-form-item label="维修费">
           <el-input v-model="form.note"></el-input>
         </el-form-item>
 
