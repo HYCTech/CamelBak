@@ -5,18 +5,18 @@
     </div>
     <div class="passwordAccount">
       <span class="addBold">账号密码</span> *******
-      <el-button type="success" @click="passwordShow=true">修改密码</el-button>      
+      <el-button type="text" @click="passwordShow=true">修改密码</el-button>      
       <!-- <p>修改密码请点击右边"修改密码"链接</p> -->
     </div>
     <div class="reviseName">
       <span class="addBold">修改姓名</span> luban
-      <el-button type="success" @click="nameShow=true">修改姓名</el-button>
+      <el-button type="text" @click="nameShow=true">修改姓名</el-button>
       <!-- <p>修改密码请点击右边"修改姓名"链接</p> -->
 
     </div>
     <div class="reviseBirth">
       <span class="addBold">设置生日</span> 2017-12-15
-      <el-button type="success" @click="birthShow=true">设置生日</el-button>
+      <el-button type="text" @click="birthShow=true">设置生日</el-button>
       <!-- <p>修改密码请点击右边"设置生日"链接</p>             -->
     </div>
     <el-dialog title="修改密码":visible.sync="passwordShow">

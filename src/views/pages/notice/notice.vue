@@ -1,14 +1,15 @@
 <template>
     <div>
         <div class="addNotice">
-        <el-input
+        <el-input class="mt20 mb20" type="text" placeholder="请输入标题"></el-input>    
+        <el-input 
         type="textarea"
         :autosize="{ minRows: 5, maxRows: 10}"
         placeholder="请输入内容"
         v-model="cotennt">
         </el-input>
          <div>
-            <el-button type="success" @click="sentNotice">发送通知</el-button>
+            <el-button class="fr mt20" type="success" @click="sentNotice">发送通知</el-button>
         </div>
         </div>
        

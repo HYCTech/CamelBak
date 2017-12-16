@@ -189,6 +189,7 @@ export default {
       background: rgb(240, 242, 245);
 
       .userInfo {
+       
         padding: 0px 20px 0px 220px;
         background: rgb(42, 59, 76);
         height: 50px;
