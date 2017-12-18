@@ -34,11 +34,7 @@
         </el-table-column>
         <el-table-column prop="repair_price" label="报价">
         </el-table-column>
-        <el-table-column fixed="right"  label="发送" width="100">
-          <template slot-scope="scope">
-            <el-button @click="sendClick(scope.row)" type="success" size="mini">发送报价</el-button>
-          </template>
-        </el-table-column>
+       
       </el-table>
     </div>
 
