@@ -45,7 +45,7 @@ export default {
             if (res.code == 0) {
               Cookies.set("Token", res.token);
               Cookies.set("UI", JSON.stringify(res.account));
-              this.$router.push("/index");
+              this.$router.push("/index/proprietors");
               
             } else {
               this.$message.error("账号密码错误");

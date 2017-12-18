@@ -7,7 +7,7 @@
                     <span class="logo-text">永兴</span>
                 </div>
                 
-                <el-menu unique-opened :default-active="active" unique-opened  class="" theme="dark">
+                <el-menu unique-opened :default-active="active"   class="" theme="dark">
                     <el-submenu index="1">
                         <template slot="title"><i class="el-icon-menu"></i>人员管理</template>
                          <el-submenu index="1-1">
@@ -85,15 +85,14 @@
                       </el-dropdown-menu>
                     </el-dropdown>
 
-                    
                       <el-dropdown>
                         <span class="el-dropdown-link">
                          <img src="../assets/image/a0.jpg"> {{ui.name}}<i class="el-icon-caret-bottom el-icon--right"></i>
                         </span>
                         <el-dropdown-menu slot="dropdown">
-                          <el-dropdown-item @click.native="$router.push('/index/userInfo')">个人资料</el-dropdown-item>
-                          <el-dropdown-item>锁屏</el-dropdown-item>
-                          <el-dropdown-item @click.native="logOut" >退出</el-dropdown-item>
+                          <el-dropdown-item @click.native="$router.push('/index/userInfo')"><i class="el-icon-document"></i>个人资料</el-dropdown-item>
+                          <el-dropdown-item><i class="el-icon-plus"></i> 锁屏</el-dropdown-item>
+                          <el-dropdown-item @click.native="logOut" ><i class="el-icon-circle-cross"></i>退出</el-dropdown-item>
                           
                         </el-dropdown-menu>
                       </el-dropdown>
