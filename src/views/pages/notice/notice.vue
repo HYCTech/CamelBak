@@ -10,7 +10,7 @@
         </el-select>
       </div>
       <div>
-        <el-button type="success" @click="sentNotice">发送通知</el-button>
+        <el-button class="fr mt20" type="success" @click="sentNotice">发送通知</el-button>
       </div>
     </div>
 
