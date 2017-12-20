@@ -39,6 +39,10 @@
         }, {
           value: '选项3',
           label: 'C小区'
+        },
+         {
+          value: '选项4',
+          label: 'D小区'
         }],
         value: ''
       };

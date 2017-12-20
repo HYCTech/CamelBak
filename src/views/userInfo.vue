@@ -19,16 +19,16 @@
       <el-button type="text" @click="birthShow=true">设置生日</el-button>
       <!-- <p>修改密码请点击右边"设置生日"链接</p>             -->
     </div>
-    <el-dialog title="修改密码":visible.sync="passwordShow">
-      <el-form label-width="80px" >
-        <el-form-item label="原始密码">
-          <el-input></el-input>
+    <el-dialog title="修改密码" :visible.sync="passwordShow">
+      <el-form :model="passwordForm" label-width="80px" :rules="rules" ref="ruleForm">
+        <el-form-item label="原始密码" prop="oldPassword">
+          <el-input v-model="passwordForm.oldPassword"></el-input>
         </el-form-item>
-        <el-form-item label="新密码">
-          <el-input></el-input>
+        <el-form-item label="新密码" prop="newPassword">
+          <el-input v-model="passwordForm.newPassword"></el-input>
         </el-form-item>
-        <el-form-item label="确认密码">
-          <el-input></el-input>
+        <el-form-item label="确认密码" prop="currentPassword">
+          <el-input v-model="passwordForm.currentPassword"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -37,10 +37,10 @@
       </div>
     </el-dialog>
 
-    <el-dialog title="修改姓名":visible.sync="nameShow">
-      <el-form label-width="80px" >
-        <el-form-item label="姓名">
-          <el-input></el-input>
+    <el-dialog title="修改姓名" :visible.sync="nameShow">
+      <el-form :model="changeNameForm" label-width="80px" :rules="rules" ref="ruleForm">
+        <el-form-item label="姓名" prop="changeName">
+          <el-input v-model="changeNameForm.changeName"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -49,10 +49,10 @@
       </div>
     </el-dialog>
 
-    <el-dialog title="设置生日":visible.sync="birthShow">
-      <el-form label-width="80px" >
-        <el-form-item label="生日">
-            <el-date-picker type="date" placeholder="选择日期" v-model="form.date" style="width: 100%;"></el-date-picker>
+    <el-dialog title="设置生日" :visible.sync="birthShow">
+      <el-form :model="birthForm" label-width="80px" :rules="rules" ref="ruleForm">
+        <el-form-item label="生日" prop="birthDate">
+            <el-date-picker v-model="birthForm.birthDate" type="date" placeholder="选择日期"  style="width: 100%;"></el-date-picker>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -77,16 +77,17 @@
         passwordShow:false,
         nameShow:false,
         birthShow:false,
-        form: {
+        passwordForm: {
           oldPassword: "",
           newPassword: "",
           currentPassword: ""
         },
-        rules: {
-        oldPassword: [{ required: true, message: "请输入旧密码", trigger: "blur" }],
-        newPassword: [{ required: true, message: "请输入新密码", trigger: "blur" }],
-        currentPassword: [{ required: true, message: "请输入新密码", trigger: "blur" }]
-      }
+        changeNameForm:{
+          changeName:''
+        },
+        birthForm:{
+          birthDate:''
+        }
       };
     },
 

@@ -101,6 +101,32 @@ export default{
           message: "请输入日期",
           trigger: "blur"
         }],
+        oldPassword:[{
+          required: true,
+          message: "请输入原始密码",
+          trigger: "blur"
+        }],
+        newPassword:[{
+          required: true,
+          message: "请输入新密码",
+          trigger: "blur"
+        }],
+        currentPassword:[{
+          required: true,
+          message: "请输入确认密码",
+          trigger: "blur"
+         }],
+        // changeName:[{
+        //   required: true,
+        //   message: "请输入要改的姓名",
+        //   trigger: "blur"
+        // }],
+        // birthDate:[{
+        //   type:'date',
+        //   required: true,
+        //   message: "请选择修改的日期",
+        //   trigger: "blur"
+        // }]
        
 
       }

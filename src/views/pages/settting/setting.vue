@@ -18,7 +18,7 @@
 </el-form>
 
 
-   <el-dialog title="添加小区":visible.sync="addShow">
+   <el-dialog title="添加小区" :visible.sync="addShow">
       <el-form label-width="80px" >
         <el-form-item label="小区姓名">
           <el-input></el-input>
@@ -30,7 +30,7 @@
       </div>
     </el-dialog>
 
-    <el-dialog title="移除小区":visible.sync="removeShow">
+    <el-dialog title="移除小区" :visible.sync="removeShow">
       <el-form label-width="80px" >
         <el-form-item label="小区姓名">
           <el-input></el-input>
