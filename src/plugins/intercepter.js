@@ -49,7 +49,7 @@ export default (Vue) => {
 
         return response.data
     }, function(error) {
-    
+        store.dispatch('setLoading', false)
         this.$message({
             showClose: true,
             message: '系统出错了哦',
@@ -74,7 +74,7 @@ export default (Vue) => {
         } else {
             console.log('超时')
         }
-        store.dispatch('setLoading', false)
+       
         return Promise.reject(error)
 
     })

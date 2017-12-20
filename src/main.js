@@ -38,7 +38,7 @@ router.beforeEach((to, from, next) => {
 
   let ui = Cookies('UI')
   let userInfo = null
-  console.log(!ui && !to.meta.auth)
+ // console.log(!ui && !to.meta.auth)
   if (!to.meta.auth && !ui) {
     next({
       path: '/login',
