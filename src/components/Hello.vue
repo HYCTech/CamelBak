@@ -1,7 +1,7 @@
 <template>
   <div class="hello">
      {{text}}
-     <button @click='click'class="aa">变18</button>
+     <button @click='click' class="aa">变18</button>
   </div>
 </template>
 
