@@ -62,7 +62,7 @@
           <el-input v-model="form.repair_content"></el-input>
         </el-form-item>
      
-        </el-form-item>
+       
 
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -78,7 +78,6 @@
 <script>
 import mixin from "@/minix/index.js";
 import * as api from "@/api/repairManagement";
-import * as utils from "@/utils/index"
 export default {
   name: "priDoneService",
   components: {},

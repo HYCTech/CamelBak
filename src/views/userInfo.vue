@@ -5,7 +5,7 @@
     </div>
     <div class="passwordAccount">
       <span class="addBold">账号密码</span> *******
-      <el-button type="text" @click="passwordShow=true">修改密码</el-button>      
+      <el-button type="text" @click="changePassword()">修改密码</el-button>      
       <!-- <p>修改密码请点击右边"修改密码"链接</p> -->
     </div>
     <div class="reviseName">
@@ -93,7 +93,10 @@
 
     methods: {
 
-
+      changePassword(){
+        this.passwordShow=true
+        this.passwordForm=utils.emptyObject(this.passwordForm) 
+      },
       //莫谈框点击确定
       okModel() {
           this.$refs["ruleForm"].validate(valid => {
