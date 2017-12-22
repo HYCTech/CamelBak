@@ -116,7 +116,7 @@
 <script>
 import router from "../router/index";
 import * as utils from "../utils/index";
-import {  mapState } from 'vuex'
+import {  mapState ,mapGetters } from 'vuex'
 export default {
   name: "index",
   mounted() {
@@ -141,7 +141,8 @@ export default {
     }
   },
   computed:{
-    ...mapState(['loading']),   
+    ...mapState(['loading','routerList']),
+    ...mapGetters(['loading','routerList'])  
   },
 };
 </script>

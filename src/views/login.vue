@@ -20,8 +20,9 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState ,mapActions } from "vuex";
 import * as api from "@/api/index.js";
+import router from "@/router"
 import md5 from "md5";
 
 export default {
@@ -36,6 +37,7 @@ export default {
   },
 
   methods: {
+    ...mapActions(['setRouterList']),
     login() {
       if (this.formData.user && this.formData.pwd) {
         this.formData.pwd = md5(this.formData.pwd);
@@ -43,10 +45,10 @@ export default {
           .login(this.formData)
           .then(res => {
             if (res.code == 0) {
+              this.setRouterList(JSON.stringify(router.options.routes.filter((i)=> i.menu)))
               Cookies.set("Token", res.token);
-              Cookies.set("UI", JSON.stringify(res.account));
-              this.$router.push("/index/proprietors");
-              
+              Cookies.set("UI", JSON.stringify(res.account));  
+              this.$router.push("/index/proprietors");            
             } else {
               this.$message.error("账号密码错误");
               this.formData.pwd=""

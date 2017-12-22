@@ -17,7 +17,7 @@ const notice=`pages/notice`
 //const setting=`pages/setting`  
  //你把文件夹改成setting试一下，我这一直报错说找不到,不对文件夹只能叫settingd,见鬼了
 const setting=`pages/settingd`
-console.log('aa',_import(`${setting}/setting`))
+//console.log('aa',_import(`${setting}/setting`))
 
 const business=`pages/business`
 
@@ -134,6 +134,7 @@ export default new Router({
             path: '/index',
             name: '通知',
             component:  _import('index'),
+            menu: true,
             children: [
                 { path: '/index/notice', name: '通知', component: _import(`${notice}/notice`), meta: { index: '6' } },
 
@@ -143,6 +144,7 @@ export default new Router({
             path: '/index',
             name: '设置',
             component:  _import('index'),
+            menu: true,
             children: [
                 { path: '/index/setting', name: '设置',component: _import(`${setting}/setting`) , meta: { index: '7' } },
 
