@@ -54,6 +54,8 @@ export default new Router({
                 { path: '/index/propertyOfc', name: '物业处人员', component:  _import(`${peopleMagNow}/propertyOfc`), meta: { index: '1-1-2' } }
             ]
         },
+
+      
         {
             path: '/index',
             name: '维修管理',
@@ -126,7 +128,7 @@ export default new Router({
             name: '用户信息',
             component:  _import('index'),
             children: [
-                { path: '/index/userInfo', name: '个人信息', component: _import('userInfo') },
+                { path: '/index/userInfo', name: '个人信息', component: _import('userInfo'),meta: { index: '10' } },
 
             ]
         },

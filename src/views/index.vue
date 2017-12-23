@@ -74,11 +74,11 @@
                         <i class="el-icon-message"> <el-badge class="mark" :value="8" /></i>
                       </span>
                       <el-dropdown-menu slot="dropdown">
-                        <el-dropdown-item class="clearfix" @click.native="$router.push('/index/waitCheck')">
-                          待审核维修单
+                        <el-dropdown-item class="clearfix" @click.native="got('/index/waitCheck','2-3')" >
+                          待验收维修单
                           <el-badge class="mark" :value="5" />
                         </el-dropdown-item>
-                        <el-dropdown-item class="clearfix" @click.native="$router.push('/index/waitHanding')">
+                        <el-dropdown-item class="clearfix" @click.native="got('/index/waitHanding','2-4')" >
                           待处理维修单
                           <el-badge class="mark" :value="3" />
                         </el-dropdown-item>
@@ -90,7 +90,7 @@
                          <img src="../assets/image/a0.jpg"> {{ui.name}}<i class="el-icon-caret-bottom el-icon--right"></i>
                         </span>
                         <el-dropdown-menu slot="dropdown">
-                          <el-dropdown-item @click.native="$router.push('/index/userInfo')"><i class="el-icon-document"></i>个人资料</el-dropdown-item>
+                          <el-dropdown-item @click.native="got('/index/userInfo',0)"><i class="el-icon-document"></i>个人资料</el-dropdown-item>
                           <el-dropdown-item><i class="el-icon-plus"></i> 锁屏</el-dropdown-item>
                           <el-dropdown-item @click.native="logOut" ><i class="el-icon-circle-cross"></i>退出</el-dropdown-item>
                           
@@ -138,6 +138,11 @@ export default {
       Cookies.set('Token','')
       Cookies.set('UI','')
       this.$router.push("/login");
+    },
+    got(url,i){
+      this.$router.push(url)
+      this.active=i
+
     }
   },
   computed:{
