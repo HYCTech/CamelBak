@@ -17,23 +17,23 @@
         @current-change="tableCurrentChange">
         <el-table-column type="selection" width="55">
         </el-table-column>
-        <el-table-column prop="department" label="单号" >
+        <el-table-column prop="orderId" label="单号" >
         </el-table-column>
-        <el-table-column prop="employee_name" label="接单员" >
+        <el-table-column prop="orderName" label="接单员" >
         </el-table-column>
-        <el-table-column prop="employee_name" label="联系方式">
+        <el-table-column prop="orderNumber" label="联系方式">
         </el-table-column>
-        <el-table-column prop="telephone_number" label="维修位置">
+        <el-table-column prop="servicePosition" label="维修位置">
         </el-table-column>
-        <el-table-column prop="position" label="内容">
+        <el-table-column prop="serviceContent" label="内容">
         </el-table-column>
-        <el-table-column prop="wxopen_id" label="材料费">
+        <el-table-column prop="materialCost" label="材料费">
         </el-table-column>
-        <el-table-column prop="note" label="维修费">
+        <el-table-column prop="serviceCost" label="维修费">
         </el-table-column>
-        <el-table-column prop="note" label="合计">
+        <el-table-column prop="serviceTotal" label="合计">
         </el-table-column>
-        <el-table-column prop="note" label="是否接单" width="120">
+        <el-table-column prop="isOrder" label="是否接单" width="120">
         </el-table-column>
         
       </el-table>
@@ -76,6 +76,7 @@
 
 <script>
 import mixin from "@/minix/index.js";
+import * as api from "@/api/serviceReceiving";
 export default {
   name: "order",
   mixins: [mixin],
@@ -122,7 +123,13 @@ export default {
 
     //获取分页数据
     getInfo() {
-    
+      api
+        .getBusinessReceive(this.pageData.page - 1, this.pageData.pageSize)
+        .then(res => {
+          console.log(res);
+          this.tableData = res.data;
+          this.pageData.total = res.count;
+        });
     },
 
      //删除数据

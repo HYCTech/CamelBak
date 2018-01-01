@@ -3,6 +3,7 @@
 import axios from "axios";
 import cookie from 'cookies-js'
 
+//发送报价  http://api.yx101.cn/wxpostmsg
 
 
 
