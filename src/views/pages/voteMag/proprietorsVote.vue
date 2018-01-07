@@ -16,10 +16,10 @@
   methods: {
       //获取分页数据
       getInfo() {
-        api.getProprietorsVote(this.pageData.page-1,this.pageData.pageSize).then(res => {
+        api.getProprietorsVote(this.pageData.page,this.pageData.pageSize).then(res => {
           console.log(res);
           this.tableData = res.data
-          this.pageData.total=res.count
+          this.pageData.total=res.total
 
         });
       },

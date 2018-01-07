@@ -124,11 +124,11 @@ export default {
     //获取分页数据
     getInfo() {
       api
-        .getBusinessReceive(this.pageData.page - 1, this.pageData.pageSize)
+        .getBusinessReceive(this.pageData.page , this.pageData.pageSize)
         .then(res => {
           console.log(res);
           this.tableData = res.data;
-          this.pageData.total = res.count;
+          this.pageData.total = res.total;
         });
     },
 

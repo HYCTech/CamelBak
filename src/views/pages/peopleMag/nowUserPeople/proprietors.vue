@@ -92,11 +92,11 @@ export default {
     //获取数据分页
     getInfo() {
       api
-        .getProprietorsInfo(this.pageData.page - 1, this.pageData.pageSize)
+        .getProprietorsInfo(this.pageData.page , this.pageData.pageSize)
         .then(res => {
           console.log(res);
           this.tableData = res.data;
-          this.pageData.total = res.count;
+          this.pageData.total = res.total;
         });
     },
     //莫谈框点击确定

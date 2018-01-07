@@ -3,7 +3,7 @@ import cookie from 'cookies-js'
 
 //获取大项维修意见征询
 export const getBusinessReceive = (page,prepage) => {
-    return axios.get(`api/vote/?page=${page}&prepage=${prepage}&filter=W10=` );
+    return axios.get(`api/vote/?pageNum=${page}&pageSize=${prepage}` );
 };
 
 //添加大项维修意见征询
@@ -25,7 +25,7 @@ export const updateBusinessReceive = (id,data) => {
 
 //获取业主投票
 export const getProprietorsVote = (page,prepage) => {
-    return axios.get(`api/ownervote/?page=${page}&prepage=${prepage}&filter=W10=` );
+    return axios.get(`api/ownervote/?pageNum=${page}&pageSize=${prepage}` );
 };
 
 //添加业主投票

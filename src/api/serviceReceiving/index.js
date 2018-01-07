@@ -3,7 +3,7 @@ import cookie from 'cookies-js'
 
 //获取业务接单
 export const getBusinessReceive = (page,prepage) => {
-    return axios.get(`api/classes/?page=${page}&prepage=${prepage}&filter=` );
+    return axios.get(`api/classes/?pageNum=${page}&pageSize=${prepage}` );
 };
 
 //添加业务接单

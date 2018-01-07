@@ -130,11 +130,11 @@ export default {
     //获取分页数据
     getInfo() {
       api
-        .getPropertyOfcInfo(this.pageData.page - 1, this.pageData.pageSize)
+        .getPropertyOfcInfo(this.pageData.page , this.pageData.pageSize)
         .then(res => {
           console.log(res);
           this.tableData = res.data;
-          this.pageData.total = res.count;
+          this.pageData.total = res.total;
         });
     },
 

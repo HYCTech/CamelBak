@@ -5,7 +5,7 @@ import cookie from 'cookies-js'
 
 //获取业主分页 信息
 export const getProprietorsInfo = (page,prepage) => {
-    return axios.get(`api/owner/?page=${page}&prepage=${prepage}&filter=W10=` );
+    return axios.get(`api/owner/?pageNum=${page}&pageSize=${prepage}` );
 };
 
 //添加业主信息
@@ -25,7 +25,7 @@ export const updateProprietorsInfo = (id,data) => {
 
 //获取物业人员分页信息
 export const getPropertyOfcInfo = (page,prepage) => {
-    return axios.get(`api/employee/?page=${page}&prepage=${prepage}&filter=W10=`);
+    return axios.get(`api/employee/?pageNum=${page}&pageSize=${prepage}`);
 };
 
 //添加物业人员

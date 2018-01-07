@@ -9,7 +9,7 @@ import cookie from 'cookies-js'
 
 //获取个人维修数据(分页)
 export const getRepairInfo = (page,prepage) => {
-    return axios.get(`api/service/?page=${page}&prepage=${prepage}&filter=W10=` );
+    return axios.get(`api/service/?pageNum=${page}&pageSize=${prepage}` );
 };
 
 //添加维修数据
