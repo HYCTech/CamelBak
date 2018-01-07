@@ -29,7 +29,7 @@ export const updateBusinessReceive = (id,data) => {
 
 //业务验收分页 信息
 export const getBusinessCheck = (page,prepage) => {
-    return axios.get(`api/inquiry/?page=${page}&prepage=${prepage}&filter=W10=` );
+    return axios.get(`api/inquiry/?page=${page}&prepage=${prepage}` );
 };
 
 //添加业务验收
