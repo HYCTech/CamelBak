@@ -24,8 +24,8 @@ export const updateProprietorsInfo = (id,data) => {
 };
 
 //获取物业人员分页信息
-export const getPropertyOfcInfo = (page,prepage) => {
-    return axios.get(`api/employee/?pageNum=${page}&pageSize=${prepage}`);
+export const getPropertyOfcInfo = (page,prepage,filter) => {
+    return axios.get(`api/employee/?pageNum=${page}&pageSize=${prepage}&`);
 };
 
 //添加物业人员
