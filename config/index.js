@@ -29,11 +29,12 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
         '/api': {
-                target: 'http://api.yx101.cn/management/',
+                target: 'http://api.yx101.cn/hycDevelop/',
                 pathRewrite: {
                     '^/api': ''
                 },
-                changeOrigin: true
+                changeOrigin: true,
+                secure:false
 
             }
     },

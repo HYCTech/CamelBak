@@ -15,25 +15,31 @@
     <div>
       <el-table highlight-current-row :data="tableData" border style="width: 100%" ref="table" :default-sort="{prop: 'date', order: 'descending'}"
         @current-change="tableCurrentChange" v-loading.body="loading">
-        <el-table-column type="selection" width="55">
-        </el-table-column>
-        <el-table-column prop="department" label="地方" >
+       <el-table-column prop="department" label="地址" >
         </el-table-column>
         <el-table-column prop="employee_name" label="姓名" >
         </el-table-column>
-        <el-table-column prop="employee_name" label="类别">
-        </el-table-column>
         <el-table-column prop="telephone_number" label="联系方式">
         </el-table-column>
-        <el-table-column prop="position" label="日期">
+        <el-table-column prop="date" label="日期">
         </el-table-column>
-        <el-table-column prop="wxopen_id" label="内容">
+        <el-table-column prop="content" label="内容">
         </el-table-column>
-        <el-table-column prop="note" label="图片">
+        <el-table-column prop="picture" label="图片">
+          <template slot-scope="scope">
+                <img :src="scope.row.picture" alt="">
+          </template>
         </el-table-column>
-        <el-table-column prop="note" label="报价">
+        <el-table-column prop="material_cost" label="材料费">
         </el-table-column>
-        <el-table-column prop="note" label="确认完成维修" width="120">
+        <el-table-column prop="maintenance_cost" label="维修费">
+        </el-table-column>
+        <el-table-column prop="offer" label="报价">
+        </el-table-column>
+        <el-table-column label="确认完成维修">
+          <template slot-scope="scope">
+            <el-button type="primary" size="small" round>确认完成维修</el-button>
+          </template>          
         </el-table-column>
         
       </el-table>
@@ -44,7 +50,7 @@
     <!-- 弹出框 -->
     <el-dialog :title="modelTitle" :visible.sync="modelShow">
       <el-form :model="form" label-width="80px" :rules="rules" ref="ruleForm">
-        <el-form-item label="部门" prop="department">
+        <el-form-item label="地址" prop="department">
           <el-input v-model="form.department"></el-input>
         </el-form-item>
         <el-form-item label="姓名" prop="employee_name">
@@ -53,14 +59,23 @@
         <el-form-item label="联系方式" prop="telephone_number">
           <el-input v-model="form.telephone_number"></el-input>
         </el-form-item>
-         <el-form-item label="职务" prop="position" >
-          <el-input v-model="form.position"></el-input>
+         <el-form-item label="日期" prop="date">
+          <el-input v-model="form.date"></el-input>
         </el-form-item>
-        <el-form-item label="openId">
-          <el-input v-model="form.wxopen_id"></el-input>
+        <el-form-item label="内容" prop="date">
+          <el-input v-model="form.content"></el-input>
         </el-form-item>
-        <el-form-item label="备注">
-          <el-input v-model="form.note"></el-input>
+        <el-form-item label="图片" prop="date">
+          <el-input v-model="form.picture"></el-input>
+        </el-form-item>
+        <el-form-item label="材料费" prop="material_cost">
+          <el-input v-model="form.material_cost"></el-input>
+        </el-form-item>
+        <el-form-item label="维修费" prop="maintenance_cost">
+          <el-input v-model="form.maintenance_cost"></el-input>
+        </el-form-item>
+        <el-form-item label="报价" prop="offer">
+          <el-input v-model="form.offer"></el-input>
         </el-form-item>
 
       </el-form>
@@ -76,7 +91,7 @@
 
 <script>
 import mixin from "@/minix/index.js";
-import * as api from "@/api/nowUserPeople";
+import * as api from "@/api/repairManagement";
 import * as utils from "@/utils/index";
 export default {
   name: "waitCheck",
@@ -124,7 +139,10 @@ export default {
 
     //获取分页数据
     getInfo() {
-    
+        api.getOrder(this.pageData.page,this.pageData.pageSize,{"order_state":"checking"}).then(res=>{
+          this.tableData=res.data
+          this.pageData.total=res.total
+        })
     },
 
      //删除数据

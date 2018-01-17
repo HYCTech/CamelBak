@@ -4,7 +4,8 @@ import { mapActions, mapState,mapMutations,mapGetters } from 'vuex'
 export default{
   data() {
     return {
-     
+      imgBaseUrl:'http\://api.yx101.cn/img/',
+      uploadUrl:'http://api.yx101.cn/upload',
       tableData: [], //表格数据
       modelShow: false, //新增修改莫弹框开关
       modelTitle: '新增', //莫态框标题
@@ -168,8 +169,11 @@ export default{
       }  
     },
   
-
-
+  showBigImg(imgUrl){
+    this.$alert(`<img src="${imgUrl}">`, '大图', {
+      dangerouslyUseHTMLString: true
+    });
+  },
   //表格展示格式  (日期)
   formatData: function (row, column) {
       return (row.datetime +"").slice(0,10)

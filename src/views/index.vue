@@ -32,7 +32,7 @@
                             <el-menu-item index="2-2-2"  @click="$router.push('/index/pubDoneService')">已完成维修</el-menu-item>
                             <el-menu-item index="2-2-3"  @click="$router.push('/index/pubCancelService')">已取消维修</el-menu-item>
                         </el-submenu>
-                         <el-menu-item index="2-3"  @click="$router.push('/index/waitCheck')">待验收维修单</el-menu-item>
+                         <!--<el-menu-item index="2-3"  @click="$router.push('/index/waitCheck')">待验收维修单</el-menu-item>-->
                           <el-menu-item index="2-4"  @click="$router.push('/index/waitHanding')">待处理维修单</el-menu-item>
 
                     </el-submenu>

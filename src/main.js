@@ -22,6 +22,7 @@ import 'quill/dist/quill.bubble.css';
 
 window.Cookies = cookie;
 Vue.config.productionTip = false
+Vue.config.silent =true
 
 
 Vue.prototype.$echarts = echarts

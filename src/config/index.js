@@ -1,8 +1,8 @@
 export default {
     development: {
-        host: 'http://localhost:8080/api'
+        host: 'http://127.0.0.1:8080/api'
     },
     production: {
-        host: 'http://api.yx101.cn/management'
+        host: 'http://api.yx101.cn/hycDevelop'
     }
 }
