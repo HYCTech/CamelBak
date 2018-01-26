@@ -4,8 +4,10 @@ import { mapActions, mapState,mapMutations,mapGetters } from 'vuex'
 export default{
   data() {
     return {
-      imgBaseUrl:'http\://api.yx101.cn/img/',
-      uploadUrl:'http://api.yx101.cn/upload',
+      imgBaseUrl:'http\://127.0.0.1:8888/img/',
+      uploadUrl:'http://127.0.0.1:8888/upload',
+      showBig:false,
+      imgSrc:'',
       tableData: [], //表格数据
       modelShow: false, //新增修改莫弹框开关
       modelTitle: '新增', //莫态框标题
@@ -67,7 +69,7 @@ export default{
         }],
         department: [{
           required: true,
-          message: "请输入部门",
+          message: "请输入地址",
           trigger: "blur"
         }],
         employee_name: [{
@@ -117,6 +119,21 @@ export default{
           message: "请输入确认密码",
           trigger: "blur"
          }],
+         maintenance_cost:[{
+          required: true,
+          message: "请输入维修费",
+          trigger: "blur"
+         }],
+         material_cost:[{
+          required: true,
+          message: "请输入材料费",
+          trigger: "blur"
+         }],
+         order_type:[{
+          required: true,
+          message: "请选择类别",
+          trigger: "blur"
+         }]
         // changeName:[{
         //   required: true,
         //   message: "请输入要改的姓名",
@@ -149,6 +166,7 @@ export default{
     },
     //点击 添加 或者编辑  1 添加  0编辑
     openModel(i) {
+      this.showBig=false    
       this.isAdd = !!i
       this.modelShow = !!(this.isAdd||this.checkId);
       this.modelTitle = this.isAdd?'新增':'编辑'
@@ -158,25 +176,25 @@ export default{
       }else if(!this.isAdd&&this.checkId){
         //编辑操作
         this.form = utils.coverObj(this.form,this.editIten)
-        if(Object.keys(this.form).includes('datetime')){
-          this.form.datetime = new Date(this.form.datetime)
-        }else if(Object.keys(this.form).includes('creattime')){
-          this.form.creattime = new Date(this.form.creattime)
-        }else if(Object.keys(this.form).includes('time')){
-          this.form.time = new Date(this.form.time) 
-        }
+        // if(Object.keys(this.form).includes('datetime')){
+        //   this.form.datetime = new Date(this.form.datetime)
+        // }else if(Object.keys(this.form).includes('creattime')){
+        //   this.form.creattime = new Date(this.form.creattime)
+        // }else if(Object.keys(this.form).includes('time')){
+        //   this.form.time = new Date(this.form.time) 
+        // }
         
       }  
     },
   
-  showBigImg(imgUrl){
-    this.$alert(`<img src="${imgUrl}">`, '大图', {
-      dangerouslyUseHTMLString: true
-    });
+  bigImg(imgUrl){
+    document.body.style.overflowY='hidden'
+    this.imgSrc=imgUrl
+    this.showBig=true
   },
   //表格展示格式  (日期)
-  formatData: function (row, column) {
-      return (row.datetime +"").slice(0,10)
+  formatDate: function (row, column) {
+      return (row.date +"").slice(0,10)
   },
     
   //成功提示窗口

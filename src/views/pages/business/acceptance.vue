@@ -1,5 +1,6 @@
 <template>
   <div>
+    <big-img :imgUrl="imgSrc" :showBigImg="showBig"></big-img>    
     <div class="Vheader">
       <!-- 搜索框 -->
       <SearchBox :onsearch="search"></SearchBox>
@@ -15,8 +16,6 @@
     <div>
       <el-table highlight-current-row :data="tableData" border style="width: 100%" ref="table" :default-sort="{prop: 'date', order: 'descending'}"
         @current-change="tableCurrentChange">
-        <el-table-column type="selection" width="55">
-        </el-table-column>
         <el-table-column prop="orderId" label="单号" >
         </el-table-column>
         <el-table-column prop="orderName" label="接单员" >
@@ -38,10 +37,10 @@
             ref="popover"
             placement="top-start"
             title="大图"
-            trigger="click">
-            <img :src="item.minFilename" style="width:60px;height:100px;" @click="showBigImg(item.filename)" class="img-item" alt="" v-for="(item,index) in scope.row.picture">
+            trigger="hover">
+            <img :src="item.minFilename" title="点击查看大图" style="width:60px;height:100px;" @click="bigImg(item.filename)" class="img-item" alt="" v-for="(item,index) in scope.row.picture">
           </el-popover>
-          <img :src="scope.row.picture[0].minFilename" title="点击查看更多" style="width:60px;height:100px;" v-popover:popover>
+          <img :src="scope.row.picture[0].minFilename"  style="width:60px;height:100px;" v-popover:popover>
           </template>
         </el-table-column>
         <el-table-column prop="material_cost" label="材料费">
@@ -154,14 +153,16 @@
 <script>
 import mixin from "@/minix/index.js";
 import * as api from "@/api/repairManagement";
-
-
+import bigImg from "@/components/bigImg";
 export default {
   name: "acceptance",
   mixins: [mixin],
   mounted() {
     this.getInfo();
   },
+  components:{
+    bigImg
+    },
   data() {
     return {
       form: {
@@ -238,8 +239,16 @@ export default {
     },
 
     //点击搜索按钮
-    search(i) {
-      console.log(i);
+    search(searchObject) {
+      this.showBig=false    
+      console.dir(searchObject)
+      let searchType=["repair_place","staff_name","staff_tel"],
+          searchKey=searchType[(searchObject.select)-1],
+          searchContent=searchObject.value
+      api.getOrder(this.pageData.page,this.pageData.pageSize,{[searchKey]:searchContent,"order_state":"accept"}).then(res=>{
+        this.tableData=res.data
+        this.pageData.total=res.total
+      })
     },
       successHandle(response, file, fileList){
       console.log(response, file, fileList)

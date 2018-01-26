@@ -1,6 +1,6 @@
 <template>
     <div class="login">
-        <div class="login-box">
+        <div class="login-box" >
             <img src="../assets/image/a0.jpg">
 
             <el-form   class="mt30" >
@@ -8,11 +8,11 @@
                     <el-input v-model="formData.user" placeholder="请输入账号"></el-input>
                 </el-form-item>
                 <el-form-item >
-                    <el-input v-model="formData.pwd" type="password" placeholder="请输入密码"></el-input>
+                    <el-input v-model="formData.pwd" type="password" placeholder="请输入密码" @keyup.enter.native="login"></el-input>
                 </el-form-item>
                
             </el-form>
-            <el-button class="fr" @click="login" type="primary" :loading="loading">登录</el-button>
+            <el-button class="fr" @click.native="login"  type="primary" :loading="loading">登录</el-button>
 
         </div>
 
@@ -35,14 +35,14 @@ export default {
       }
     };
   },
-
   methods: {
     ...mapActions(['setRouterList']),
     login() {
       if (this.formData.user && this.formData.pwd) {
-        this.formData.pwd = md5(this.formData.pwd);
+        let loginForm=Object.assign({},this.formData)
+        loginForm.pwd=md5(loginForm.pwd);
         api
-          .login(this.formData)
+          .login(loginForm)
           .then(res => {
             if (res.code == 0) {
               this.setRouterList(JSON.stringify(router.options.routes.filter((i)=> i.menu)))

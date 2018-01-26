@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!--<big-img :imgUrl="imgSrc" :dialogShow="showDialog"></big-img> -->            
+    <big-img :imgUrl="imgSrc" :showBigImg="showBig"></big-img>     
     <div class="Vheader">
       <!-- 搜索框 -->
       <SearchBox :onsearch="search"></SearchBox>
@@ -16,20 +16,18 @@
     <div>
       <el-table highlight-current-row :data="tableData" border style="width: 100%" ref="table" :default-sort="{prop: 'date', order: 'descending'}"
         @current-change="tableCurrentChange">
-        <el-table-column type="selection" width="55">
-        </el-table-column>
         <el-table-column prop="orderId" label="单号" >
         </el-table-column>
-        <el-table-column prop="orderName" label="接单员" >
+        <el-table-column prop="staff_name" label="接单员" >
         </el-table-column>
-        <el-table-column prop="orderNumber" label="联系方式">
+        <el-table-column prop="staff_tel" label="联系方式">
         </el-table-column>
         <el-table-column prop="order_type" label="类型">
           <template slot-scope="scope">
             <span>{{scope.row.order_type=="personal"?"个人":"公共"}}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="department" label="维修位置">
+        <el-table-column prop="repair_place" label="维修位置">
         </el-table-column>
         <el-table-column prop="content" label="内容">
         </el-table-column>
@@ -40,9 +38,9 @@
               placement="top-start"
               title="全部详情图"
               trigger="hover">
-              <img :src="item.minFilename" style="width:60px;height:100px;" @click="showBigImg(item.filename)" class="img-item" alt="" v-for="(item,index) in scope.row.picture">
+              <img :src="item.minFilename"  title="点击查看大图" style="width:60px;height:100px;" @click="bigImg(item.filename)" class="img-item" alt="" v-for="(item,index) in scope.row.picture">
             </el-popover>
-            <img :src="scope.row.picture[0].minFilename" title="点击查看更多" style="width:60px;height:100px;" v-popover:popover>      
+            <img :src="scope.row.picture[0].minFilename"  style="width:60px;height:100px;" v-popover:popover>      
           </template>
         </el-table-column>
         <el-table-column prop="material_cost" label="材料费">
@@ -66,8 +64,8 @@
       <el-form :model="form" label-width="80px" :rules="rules" ref="ruleForm">  
         <el-row>
           <el-col :span="12">
-            <el-form-item label="维修位置" prop="department">
-              <el-input v-model="form.department"></el-input>
+            <el-form-item label="维修位置" prop="repair_place">
+              <el-input v-model="form.repair_place"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -81,13 +79,13 @@
         </el-row>
         <el-row>
           <el-col :span="6">
-            <el-form-item label="接单员" prop="orderName">
-            <el-input v-model="form.orderName"></el-input>
+            <el-form-item label="接单员" prop="staff_name">
+            <el-input v-model="form.staff_name"></el-input>
           </el-form-item>
           </el-col>
           <el-col :span="7">
-            <el-form-item label="联系方式" prop="orderNumber">
-              <el-input v-model="form.orderNumber"></el-input>
+            <el-form-item label="联系方式" prop="staff_tel">
+              <el-input v-model="form.staff_tel"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="9">
@@ -166,13 +164,12 @@ export default {
   },
   data() {
     return {
-      showDialog:false,
-      imgSrc:'',
       form: {
-        order_staff: "",
-        staff_phone: "",
-        department: "",
+        repair_place: "",
         content: "",
+        staff_tel:"",
+        staff_name:"",
+        date:"",
         picture:[],
         position: "",
         material_cost:"",
@@ -232,10 +229,6 @@ export default {
         this.pageData.total=res.total
       });
     },
-    detailImg(img){
-      this.imgSrc=img
-      this.showDialog=true
-    },
      //删除数据
     delItem() {
       if (this.checkId) {
@@ -249,8 +242,16 @@ export default {
     },
 
     //点击搜索按钮
-    search(i) {
-      console.log(i);
+    search(searchObject) {
+      this.showBig=false    
+      console.dir(searchObject)
+      let searchType=["repair_place","staff_name","staff_tel"],
+          searchKey=searchType[(searchObject.select)-1],
+          searchContent=searchObject.value
+      api.getOrder(this.pageData.page,this.pageData.pageSize,{[searchKey]:searchContent,"$or": [{"order_state": "pending"}, {"order_state":"repairing"}]}).then(res=>{
+        this.tableData=res.data
+        this.pageData.total=res.total
+      })
     },
       successHandle(response, file, fileList){
       console.log("fileList=>")

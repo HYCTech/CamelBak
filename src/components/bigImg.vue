@@ -1,36 +1,52 @@
 <template>
     <div>
-        <el-dialog title="大图" :visible.sync="dialogShow" :fullscreen="true" top="1vh" :show-close="false">
-            <div class="img-box">
-                <img :src="imgUrl" :style="{height}">            
-            </div>
-            <div slot="footer" class="dialog-footer">
-                <el-button type="primary" @click="dialogShow = false">确 定</el-button>
-            </div>
-        </el-dialog>
+        <div class="big-modal" v-show="isShow" @click="closeDialog">
+            <img :src="imgUrl">
+        </div>
     </div>
 </template>
 <script>
 export default {
   name: 'bigImg',
-  props:['imgUrl','dialogShow'],
+  mounted(){
+  },
   data () {
     return {
     }
   },
+  props:['showBigImg','imgUrl'],
   computed:{
       height(){
-          return (document.documentElement.clientHeight-200)+'px'
+          return (document.documentElement.clientHeight)
+      },
+      isShow(){
+          return this.showBigImg
+      }
+  },
+  methods:{
+      closeDialog(){
+          this.showBigImg=false
+          document.body.style.overflowY='scroll'
       }
   }
 }
 </script>
 <style lang="scss" scoped>
- .img-box {
-     text-align:center;
- }
- img {
-    width:90%;
-    height:80%;
-}
+    .big-modal {
+        position:fixed;
+        top:0;
+        left:0;
+        right:0;
+        bottom:0;
+        background-color:rgba(0, 0, 0, 0.5);
+        z-index:3000;
+        text-align:center;
+        padding:5% 0 0 0;
+    }
+
+    .big-modal img{
+        display:inline-block;
+        width:80%;
+        height:80%;
+    }
 </style>
