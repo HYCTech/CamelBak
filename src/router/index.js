@@ -51,7 +51,8 @@ export default new Router({
             menu: true,
             children: [
                 { path: '/index/proprietors', name: '业主', component:  _import(`${peopleMagNow}/proprietors`), meta: { index: '1-1-1' } },
-                { path: '/index/propertyOfc', name: '物业处人员', component:  _import(`${peopleMagNow}/propertyOfc`), meta: { index: '1-1-2' } }
+                { path: '/index/propertyOfc', name: '物业处人员', component:  _import(`${peopleMagNow}/propertyOfc`), meta: { index: '1-1-2' } },
+                { path: '/index/maintenance', name: '维修工', component:  _import(`${peopleMagNow}/maintenance`), meta: { index: '1-1-3' } }
             ]
         },
 

@@ -2,7 +2,7 @@
   <div>
     <div class="Vheader">
       <!-- 搜索框 -->
-      <SearchBox :onsearch="search"></SearchBox>
+      <SearchBox :onsearch="search" :labelItem="searchCondition"></SearchBox>
       <!-- 按钮组 -->
       <div class="btnGroup">
         <el-button type="success" icon="plus" @click="openModel(1)">添加</el-button>
@@ -15,8 +15,6 @@
     <div>
       <el-table highlight-current-row :data="tableData" border style="width: 100%" ref="table" :default-sort="{prop: 'date', order: 'descending'}"
         @current-change="tableCurrentChange" v-loading.body="loading">
-        <el-table-column type="selection" width="55">
-        </el-table-column>
         <el-table-column prop="room_number" label="房号" width="150">
         </el-table-column>
         <el-table-column prop="owner_name" label="姓名" width="150">
@@ -75,6 +73,18 @@ export default {
   },
   data() {
     return {
+      searchCondition: [{
+        labelTag:'房号',
+        indexTag:'room_number'
+        },
+      {
+        labelTag:'姓名',
+        indexTag:'owner_name'
+        },
+      {
+        labelTag:'电话号码',
+        indexTag:'telephone_number'
+      }],
       form: {
         owner_name: "",
         room_number: "",
@@ -91,9 +101,8 @@ export default {
 
     //获取数据分页
     getInfo() {
-      api
-        .getProprietorsInfo(this.pageData.page , this.pageData.pageSize)
-        .then(res => {
+      api.getProprietorsInfo(this.pageData.page , this.pageData.pageSize,{})
+         .then(res => {
           console.log(res);
           this.tableData = res.data;
           this.pageData.total = res.total;
@@ -140,8 +149,16 @@ export default {
     },
 
     //点击搜索按钮
-    search(i) {
-      console.log(i);
+    search(searchObject) {
+      if(searchObject.value&&!!searchObject.select){
+          api.getProprietorsInfo(this.pageData.page,this.pageData.pageSize,{[searchObject.select]:searchObject.value})
+             .then(res=>{
+              this.tableData=res.data
+              this.pageData.total=res.total
+            })
+      }else {
+        this.getInfo()
+      }
     }
   }
 };

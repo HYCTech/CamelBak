@@ -3,7 +3,7 @@
     <big-img :imgUrl="imgSrc" :showBigImg="showBig"></big-img>  
     <div class="Vheader">
       <!-- 搜索框 -->
-   <SearchBox :onsearch="search"></SearchBox>
+   <SearchBox :onsearch="search" :labelItem="searchLimit"></SearchBox>
       <!-- 按钮组 -->
       <div class="btnGroup">
         <el-button type="success" icon="plus" @click="openModel(1)">添加</el-button>
@@ -216,14 +216,16 @@
 
       //点击搜索按钮
       search(searchObject) {
-         this.showBig=false   
-        let searchType=["repair_place","customer_name","customer_tel"],
-            searchKey=searchType[(searchObject.select)-1],
-            searchContent=searchObject.value
-        api.getOrder(this.pageData.page,this.pageData.pageSize,{[searchKey]:searchContent,"order_state":"finished","order_type":"public"}).then(res=>{
-          this.tableData=res.data
-          this.pageData.total=res.total
-        })
+          this.showBig=false   
+          if(searchObject.value&&!!searchObject.select){
+             api.getOrder(this.pageData.page,this.pageData.pageSize,{[searchObject.select]:searchObject.value,"order_state":"finished","order_type":"public"})
+                .then(res=>{
+                  this.tableData=res.data
+                  this.pageData.total=res.total
+                })
+            }else {
+              this.getInfo()
+            }
       },
       successHandle(response, file, fileList){
         console.log(response, file, fileList)

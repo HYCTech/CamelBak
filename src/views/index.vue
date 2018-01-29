@@ -14,6 +14,7 @@
                             <template slot="title">正在使用人员</template>
                             <el-menu-item index="1-1-1" @click="$router.push('/index/proprietors')">业主</el-menu-item>
                             <el-menu-item index="1-1-2" @click="$router.push('/index/propertyOfc')">物业处人员</el-menu-item>
+                            <el-menu-item index="1-1-3" @click="$router.push('/index/maintenance')">维修工</el-menu-item>
                         </el-submenu>
                     </el-submenu>
 

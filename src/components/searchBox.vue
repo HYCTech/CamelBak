@@ -4,9 +4,7 @@
       <div class="searchBox">
         <el-input placeholder="请输入内容" v-model="search.value">
           <el-select v-model="search.select" slot="prepend" placeholder="请选择" class="select">
-            <el-option label="维修位置" value="1"></el-option>
-            <el-option label="姓名" value="2"></el-option>
-            <el-option label="电话号码" value="3"></el-option>
+            <el-option :label="item.labelTag" :value="item.indexTag" v-for="(item,index) in labelItem" :key="index"></el-option>
           </el-select>
           <el-button slot="append" icon="search" @click="click"></el-button>
         </el-input>
@@ -19,7 +17,26 @@
  
 export default {
   name:'searchBox',
-  props: ["onsearch"],
+  props: {
+    onsearch:{
+                type:String
+              },
+    labelItem:{
+      type:Array,
+      default:[{
+                    labelTag:'维修位置',
+                    indexTag:1
+                    },
+                   {
+                    labelTag:'姓名',
+                    indexTag:2
+                    },
+                   {
+                    labelTag:'电话号码',
+                    indexTag:3
+                    }]
+              }
+    },
   
   data () {
     return {

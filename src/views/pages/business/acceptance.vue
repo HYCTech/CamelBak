@@ -3,7 +3,7 @@
     <big-img :imgUrl="imgSrc" :showBigImg="showBig"></big-img>    
     <div class="Vheader">
       <!-- 搜索框 -->
-      <SearchBox :onsearch="search"></SearchBox>
+      <SearchBox :onsearch="search" :labelItem="searchCondition"></SearchBox>
       <!-- 按钮组 -->
       <div class="btnGroup">
         <el-button type="success" icon="plus" @click="openModel(1)">添加</el-button>
@@ -81,7 +81,9 @@
         <el-row>
           <el-col :span="6">
             <el-form-item label="接单员" prop="orderName">
-            <el-input v-model="form.orderName"></el-input>
+            <el-select v-model="form.orderName" placeholder="请选择" >
+                <el-option :label="item.maintenance_name" :value="item.maintenance_name" v-for="(item,index) in maintenance_info" :key="index"></el-option>
+            </el-select>
           </el-form-item>
           </el-col>
           <el-col :span="7">
@@ -165,6 +167,18 @@ export default {
     },
   data() {
     return {
+      searchCondition: [{
+        labelTag:'地址',
+        indexTag:'repair_place'
+        },
+      {
+        labelTag:'姓名',
+        indexTag:'staff_name'
+        },
+      {
+        labelTag:'电话号码',
+        indexTag:'staff_tel'
+      }],
       form: {
         department: "",
         employee_name: "",
@@ -241,14 +255,15 @@ export default {
     //点击搜索按钮
     search(searchObject) {
       this.showBig=false    
-      console.dir(searchObject)
-      let searchType=["repair_place","staff_name","staff_tel"],
-          searchKey=searchType[(searchObject.select)-1],
-          searchContent=searchObject.value
-      api.getOrder(this.pageData.page,this.pageData.pageSize,{[searchKey]:searchContent,"order_state":"accept"}).then(res=>{
-        this.tableData=res.data
-        this.pageData.total=res.total
-      })
+      if(searchObject.value&&!!searchObject.select){
+          api.getOrder(this.pageData.page,this.pageData.pageSize,{[searchObject.select]:searchObject.value,"order_state":"accept"})
+             .then(res=>{
+                this.tableData=res.data
+                this.pageData.total=res.total
+              })
+        }else {
+          this.getInfo()
+        }
     },
       successHandle(response, file, fileList){
       console.log(response, file, fileList)

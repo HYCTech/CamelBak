@@ -3,7 +3,7 @@
     <big-img :imgUrl="imgSrc" :showBigImg="showBig"></big-img>     
     <div class="Vheader">
       <!-- 搜索框 -->
-      <SearchBox :onsearch="search"></SearchBox>
+      <SearchBox :onsearch="search" :labelItem="searchCondition"></SearchBox>
       <!-- 按钮组 -->
       <div class="btnGroup">
         <el-button type="success" icon="plus" @click="openModel(1)">添加</el-button>
@@ -63,12 +63,12 @@
     <el-dialog :title="modelTitle" :visible.sync="modelShow">
       <el-form :model="form" label-width="80px" :rules="rules" ref="ruleForm">  
         <el-row>
-          <el-col :span="12">
+          <el-col :span="8">
             <el-form-item label="维修位置" prop="repair_place">
               <el-input v-model="form.repair_place"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
+          <el-col :span="8">
             <el-form-item label="类型" prop="order_type">
               <el-select v-model="form.order_type" placeholder="请选择" >
                 <el-option label="个人" value="personal"></el-option>
@@ -76,11 +76,21 @@
               </el-select>
             </el-form-item>
           </el-col>
+          <el-col :span="8">
+            <el-form-item label="接单状态" prop="order_state">
+              <el-select v-model="form.order_state" placeholder="请选择" @input="showMaintenanceToggele(form.order_state)">
+                <el-option label="待接单中" value="pending"></el-option>
+                <el-option label="已接单" value="repairing"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
         </el-row>
-        <el-row>
+        <el-row  v-show="maintenanceIsShow">
           <el-col :span="6">
             <el-form-item label="接单员" prop="staff_name">
-            <el-input v-model="form.staff_name"></el-input>
+            <el-select v-model="form.staff_name" placeholder="请选择" >
+                <el-option :label="item.maintenance_name" :value="item.maintenance_name" v-for="(item,index) in maintenance_info" :key="index"></el-option>
+            </el-select>
           </el-form-item>
           </el-col>
           <el-col :span="7">
@@ -113,29 +123,21 @@
           </el-upload>
         </el-form-item>
         <el-row>
-          <el-col :span="6">
+          <el-col :span="8">
             <el-form-item label="材料费" prop="material_cost">
               <el-input v-model="form.material_cost"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="8">
             <el-form-item label="维修费" prop="maintenance_cost">
               <el-input v-model="form.maintenance_cost"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="8">
             <el-form-item label="报价" prop="offer">
               <el-input v-model="form.offer"></el-input>
             </el-form-item>
-          </el-col>   
-          <el-col :span="6">
-            <el-form-item label="接单状态" prop="order_state">
-              <el-select v-model="form.order_state" placeholder="请选择" >
-                <el-option label="待接单中" value="pending"></el-option>
-                <el-option label="已接单" value="repairing"></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>         
+          </el-col>      
         </el-row>
 
       </el-form>
@@ -164,6 +166,19 @@ export default {
   },
   data() {
     return {
+      maintenanceIsShow:true,
+      searchCondition: [{
+        labelTag:'地址',
+        indexTag:'repair_place'
+        },
+      {
+        labelTag:'姓名',
+        indexTag:'staff_name'
+        },
+      {
+        labelTag:'电话号码',
+        indexTag:'staff_tel'
+      }],
       form: {
         repair_place: "",
         content: "",
@@ -191,6 +206,11 @@ export default {
       this.$refs["ruleForm"].validate(valid => {
         if (valid) {     
           console.log("submit!");
+          if(this.form.order_state=='pending'){
+              this.form.staff_name=''
+              this.form.staff_tel=''
+              this.form.date=''
+            }
           if (this.isAdd) {
             //添加操作
             api.createOrderId(this.form).then(res=>{
@@ -224,10 +244,11 @@ export default {
 
     //获取分页数据
     getInfo() {
-      api.getOrder(this.pageData.page,this.pageData.pageSize,{ "$or": [{"order_state": "pending"}, {"order_state":"repairing"}]}).then(res=>{
-        this.tableData=res.data
-        this.pageData.total=res.total
-      });
+      api.getOrder(this.pageData.page,this.pageData.pageSize,{ "$or": [{"order_state": "pending"}, {"order_state":"repairing"}]})
+         .then(res=>{
+          this.tableData=res.data
+          this.pageData.total=res.total
+        });
     },
      //删除数据
     delItem() {
@@ -244,20 +265,27 @@ export default {
     //点击搜索按钮
     search(searchObject) {
       this.showBig=false    
-      console.dir(searchObject)
-      let searchType=["repair_place","staff_name","staff_tel"],
-          searchKey=searchType[(searchObject.select)-1],
-          searchContent=searchObject.value
-      api.getOrder(this.pageData.page,this.pageData.pageSize,{[searchKey]:searchContent,"$or": [{"order_state": "pending"}, {"order_state":"repairing"}]}).then(res=>{
-        this.tableData=res.data
-        this.pageData.total=res.total
-      })
+      if(searchObject.value&&!!searchObject.select){
+        api.getOrder(this.pageData.page,this.pageData.pageSize,{[searchObject.select]:searchObject.value,"$or": [{"order_state": "pending"}, {"order_state":"repairing"}]}).then(res=>{
+          this.tableData=res.data
+          this.pageData.total=res.total
+        })
+      }else {
+        this.getInfo()
+      }
     },
       successHandle(response, file, fileList){
       console.log("fileList=>")
       console.dir(fileList)
       this.form.picture.push({minFilename:this.imgBaseUrl+response.minFilename,
                               filename:this.imgBaseUrl+response.filename})
+    },
+    showMaintenanceToggele(currentSelect){
+      if(currentSelect=='pending'){
+        this.maintenanceIsShow=false
+      }else if(currentSelect=='repairing'){
+        this.maintenanceIsShow=true
+      }
     }
   }
 };

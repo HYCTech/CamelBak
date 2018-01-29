@@ -27,32 +27,13 @@ export const delOrder = (id) => {
 }
 
 //生成订单
-export const createOrderId=(params)=> {
+export const createOrderId = (params) => {
     return axios.post(`api/order?order=1`,params)
 }
 
-
-
-
-//获取个人维修数据(分页)
-export const getRepairInfo = (page,prepage) => {
-    return axios.get(`api/service/?pageNum=${page}&pageSize=${prepage}` );
-};
-
-//添加维修数据
-export const addRepair = (data) => {
-    return axios.post(`/api/service/`,data);
-};
-
-//删除维修数据
-export const removeRepair = (id) => {
-    return axios.delete(`/api/service/${id}`);
-};
-
-//修改维修数据
-export const updateRepair = (id,data) => {
-    return axios.put(`/api/service/${id}`,data);
-};
-
+//发送报价
+export const sendPrices = (params) => {
+    return axios.post(`api/senPrice`,params)
+}
 
 

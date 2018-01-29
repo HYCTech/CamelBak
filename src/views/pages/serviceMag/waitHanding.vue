@@ -3,7 +3,7 @@
     <big-img :imgUrl="imgSrc" :showBigImg="showBig"></big-img>     
     <div class="Vheader">
       <!-- 搜索框 -->
-      <SearchBox :onsearch="search"></SearchBox>
+      <SearchBox :onsearch="search" :labelItem="searchLimit"></SearchBox>
       <!-- 按钮组 -->
       <div class="btnGroup">
         <el-button type="success" icon="plus" @click="openModel(1)">添加</el-button>
@@ -51,7 +51,7 @@
         </el-table-column>
         <el-table-column label="发送报价">
           <template slot-scope="scope">
-            <el-button type="primary" size="small" round>发送报价</el-button>
+            <el-button @click="sendPrices(scope.row)" type="primary" size="small" round>发送报价</el-button>
           </template>          
         </el-table-column>
         
@@ -245,19 +245,40 @@ export default {
     search(searchObject) {
       this.showBig=false    
       console.dir(searchObject)
-      let searchType=["repair_place","customer_name","customer_tel"],
-          searchKey=searchType[(searchObject.select)-1],
-          searchContent=searchObject.value
-      api.getOrder(this.pageData.page,this.pageData.pageSize,{[searchKey]:searchContent,"order_state":"waitting"}).then(res=>{
-        this.tableData=res.data
-        this.pageData.total=res.total
-      })
+      if(searchObject.value&&!!searchObject.select){
+        api.getOrder(this.pageData.page,this.pageData.pageSize,{[searchObject.select]:searchObject.value,"order_state":"waitting"})
+           .then(res=>{
+            this.tableData=res.data
+            this.pageData.total=res.total
+          })
+      }else {
+        this.getInfo()
+      }
 
     },
 
     successHandle(response, file, fileList){
       this.form.picture.push({minFilename:this.imgBaseUrl+response.minFilename,
                               filename:this.imgBaseUrl+response.filename})
+    },
+    sendPrices(row){
+      this.showBig=false          
+      let pushMessage={
+              title:'维修价格',  
+							orderId:row.orderId,    //订单ID 显示用的
+							content:row.content,
+							openID:row.openID,      //用户的openid 
+							order_id:row._id,       //order表_id 操作用的
+      }
+      api.sendPrices(pushMessage).then(res=>{
+        console.log(res)
+        if(res.success){
+          this.successMsg()
+        }else {
+          this.errorMsg()
+        }
+      })
+      console.log(pushMessage)
     }
   }
 };

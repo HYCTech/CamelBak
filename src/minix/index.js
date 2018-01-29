@@ -1,5 +1,6 @@
 
 import * as utils from '../utils/index'
+import {getAllMaintenance} from "../api/nowUserPeople"
 import { mapActions, mapState,mapMutations,mapGetters } from 'vuex'
 export default{
   data() {
@@ -15,14 +16,25 @@ export default{
       checkId: '', //选择的id （用来编辑、删除）
       // loading:'',
       editIten:{}, //要编辑的内容（模拟*）
-    
+      maintenance_info:'',
       //分页数据
       pageData: {
         page: 1,
         pageSize: 5,
         total: 1
       },
-
+      searchLimit: [{
+        labelTag:'地址',
+        indexTag:'repair_place'
+        },
+      {
+        labelTag:'姓名',
+        indexTag:'customer_name'
+        },
+      {
+        labelTag:'电话号码',
+        indexTag:'customer_tel'
+      }],
       //新增/修改维修单表单验证规则
       rules: {
         repair_name: [{
@@ -168,6 +180,12 @@ export default{
     openModel(i) {
       this.showBig=false    
       this.isAdd = !!i
+      let currentPath=this.$router.history.current.fullPath
+      if(currentPath.match('/index/order')||currentPath.match('/index/acceptance')){
+        getAllMaintenance().then(res=>{
+          this.maintenance_info=res.data
+        })
+      }
       this.modelShow = !!(this.isAdd||this.checkId);
       this.modelTitle = this.isAdd?'新增':'编辑'
       this.form=utils.emptyObject(this.form) 
@@ -206,6 +224,14 @@ export default{
     });
    },
 
+  //错误提示窗口
+   errorMsg(){
+    this.$message({
+      showClose: true,
+      message: '操作失败',
+      type: 'error'
+    });
+   },
    //删除提示框
     delMsg() {
       if (this.checkId){
