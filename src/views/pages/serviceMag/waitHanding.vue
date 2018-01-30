@@ -156,6 +156,7 @@ import mixin from "@/minix/index.js";
 import * as api from "@/api/repairManagement";
 import * as utils from "@/utils/index";
 import bigImg from "@/components/bigImg";
+import {mapMutations } from 'vuex'
 export default {
   name: "waitHanding",
   mixins: [mixin],
@@ -184,7 +185,7 @@ export default {
   },
 
   methods: {
-
+    ...mapMutations(['SET_WAITING_NUM']),
     //莫谈框点击确定
     okModel() {
       this.$refs["ruleForm"].validate(valid => {
@@ -229,6 +230,7 @@ export default {
       api.getOrder(this.pageData.page,this.pageData.pageSize,{"order_state":"waitting"}).then(res=>{
         this.tableData=res.data
         this.pageData.total=res.total
+        this.SET_WAITING_NUM(res.total)
       })
     },
 

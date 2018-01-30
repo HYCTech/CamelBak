@@ -164,7 +164,8 @@ export default{
     }
   },
   methods: {
-
+    ...mapActions(['setWaitHandNum']),    
+    ...mapGetters(['waitHandNum']),    
     //表格选择行
     tableCurrentChange(row) {
       //console.log(row);
@@ -250,10 +251,13 @@ export default{
   },
   //获取待处理维修单条数
   getwaitHandNum(){
-      return getCountByTableName('order',{"order_state":"waitting"})
+     this.setWaitHandNum()
   }
   },
   computed:{
     ...mapState(['loading']),   
+    waitHandCount(){
+      return this.waitHandNum()
+    }
   },
 }

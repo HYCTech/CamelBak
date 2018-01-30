@@ -72,7 +72,7 @@
 
                    <el-dropdown trigger="click">
                       <span class="el-dropdown-link">   
-                        <i class="el-icon-message"> <el-badge class="mark" :value="waitHandNum" /></i>
+                        <i class="el-icon-message"> <el-badge class="mark" :value="waitHandCount" /></i>
                       </span>
                       <el-dropdown-menu slot="dropdown">
                         <!--<el-dropdown-item class="clearfix" @click.native="got('/index/waitCheck','2-3')" >
@@ -81,7 +81,7 @@
                         </el-dropdown-item>-->
                         <el-dropdown-item class="clearfix" @click.native="got('/index/waitHanding','2-4')" >
                           待处理维修单
-                          <el-badge class="mark" :value="waitHandNum" />
+                          <el-badge class="mark" :value="waitHandCount" />
                         </el-dropdown-item>
                       </el-dropdown-menu>
                     </el-dropdown>
@@ -125,14 +125,11 @@ export default {
   mounted() {
     //this.PATH= utils.changeNav(router.options.routes)
     //console.log(this.PATH, 1);
-    this.getwaitHandNum().then(res=>{
-      this.waitHandNum=res.total
-    })
+    this.getwaitHandNum()
   },
   data() {
     return {
       PATH: [],
-      waitHandNum:'',
       ui:JSON.parse(Cookies('UI')),
       userPic: "",
       active: this.$route.meta.index
