@@ -49,7 +49,11 @@ export default {
   },
   methods:{
    click(){
-     this.onsearch(this.search)
+     let serchLimit = Object.assign({},this.search)     
+     if(serchLimit.value.match(/#/)){
+        serchLimit.value = serchLimit.value.replace(/#/,'%23')
+     }
+     this.onsearch(serchLimit)
    }
     
 

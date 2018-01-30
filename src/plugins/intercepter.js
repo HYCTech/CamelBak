@@ -20,7 +20,11 @@ export default (Vue) => {
     axios.defaults.timeout = 50000
         // 添加拦截器
     axios.interceptors.request.use(function(config) {
-      
+        console.log('config=>')
+        if(config.url.match(/senPrice/)){
+            config.url=config.url.replace(/\/hycDevelop/,'')
+        }
+        console.log(config.url)        
         requests.push(config)
          store.dispatch('setLoading', true)
         return config

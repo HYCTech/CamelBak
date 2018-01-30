@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="big-modal" v-show="isShow" @click="closeDialog">
+        <div class="big-modal"  @click="closeDialog">
             <img :src="imgUrl">
         </div>
     </div>
@@ -14,19 +14,10 @@ export default {
     return {
     }
   },
-  props:['showBigImg','imgUrl'],
-  computed:{
-      height(){
-          return (document.documentElement.clientHeight)
-      },
-      isShow(){
-          return this.showBigImg
-      }
-  },
+  props:['imgUrl','closeModal'],
   methods:{
       closeDialog(){
-          this.showBigImg=false
-          document.body.style.overflowY='scroll'
+          this.closeModal()
       }
   }
 }

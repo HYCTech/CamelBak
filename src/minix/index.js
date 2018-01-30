@@ -1,6 +1,7 @@
 
 import * as utils from '../utils/index'
 import {getAllMaintenance} from "../api/nowUserPeople"
+import {getCountByTableName} from "../api/repairManagement"
 import { mapActions, mapState,mapMutations,mapGetters } from 'vuex'
 export default{
   data() {
@@ -177,8 +178,7 @@ export default{
       }
     },
     //点击 添加 或者编辑  1 添加  0编辑
-    openModel(i) {
-      this.showBig=false    
+    openModel(i) {   
       this.isAdd = !!i
       let currentPath=this.$router.history.current.fullPath
       if(currentPath.match('/index/order')||currentPath.match('/index/acceptance')){
@@ -209,6 +209,10 @@ export default{
     document.body.style.overflowY='hidden'
     this.imgSrc=imgUrl
     this.showBig=true
+  },
+  closeModalPicture(){
+    document.body.style.overflowY='auto'
+    this.showBig=false
   },
   //表格展示格式  (日期)
   formatDate: function (row, column) {
@@ -243,6 +247,10 @@ export default{
        this.delItem()
       }).catch()
     }
+  },
+  //获取待处理维修单条数
+  getwaitHandNum(){
+      return getCountByTableName('order',{"order_state":"waitting"})
   }
   },
   computed:{

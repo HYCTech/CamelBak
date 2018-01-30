@@ -29,7 +29,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
         '/api': {
-                target: 'http://api.yx101.cn/hycDevelop/',
+                target: 'http://localhost:8888/hycDevelop/',
                 pathRewrite: {
                     '^/api': ''
                 },

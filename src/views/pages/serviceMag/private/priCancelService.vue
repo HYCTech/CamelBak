@@ -1,6 +1,6 @@
 <template>
   <div>
-    <big-img :imgUrl="imgSrc" :showBigImg="showBig"></big-img>     
+    <big-img :imgUrl="imgSrc" :closeModal="closeModalPicture" v-show="showBig"></big-img>        
     <div class="Vheader">
       <!-- 搜索框 -->
    <SearchBox :onsearch="search" :labelItem="searchLimit"></SearchBox>
@@ -28,14 +28,17 @@
         </el-table-column>
         <el-table-column prop="picture" label="图片">
           <template slot-scope="scope">
-          <el-popover
-            ref="popover"
-            placement="top-start"
-            title="大图"
-            trigger="hover">
-              <img :src="item.minFilename" title="点击查看大图" style="width:60px;height:100px;" @click="bigImg(item.filename)" class="img-item" alt="" v-for="(item,index) in scope.row.picture">
-          </el-popover>
-          <img :src="scope.row.picture[0].minFilename"  style="width:60px;height:100px;" v-popover:popover>      
+            <div v-if="scope.row.picture.length>0">
+              <el-popover
+                ref="popover"
+                placement="top-start"
+                title="大图"
+                trigger="hover">
+                <img :src="item.minFilename"  title="点击查看大图" style="width:60px;height:100px;" @click="bigImg(item.filename)" class="img-item" alt="" v-for="(item,index) in scope.row.picture">
+              </el-popover>
+                <img :src="scope.row.picture[0].minFilename" style="width:60px;height:100px;" v-popover:popover>   
+            </div> 
+            <span v-show="scope.row.picture.length==0">用户没有上传图片</span>    
           </template>
         </el-table-column>
         <el-table-column prop="material_cost" label="材料费">
@@ -220,7 +223,7 @@
 
       //点击搜索按钮
       search(searchObject) {
-         this.showBig=false  
+         
          if(searchObject.value&&!!searchObject.select){ 
              api.getOrder(this.pageData.page,this.pageData.pageSize,{[searchObject.select]:searchObject.value,"order_state":"cancel","order_type":"personal"})
                 .then(res=>{
