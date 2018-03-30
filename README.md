@@ -1,3 +1,5 @@
+# 本项目已停止维护
+
 # CamelBak
 O2O Platform
 
