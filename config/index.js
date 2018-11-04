@@ -29,7 +29,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
         '/api': {
-                target: 'http://api.yx101.cn/hycDevelop/',
+                target: 'http://localhost:8888/hycDevelop/',
                 pathRewrite: {
                     '^/api': ''
                 },
@@ -38,6 +38,7 @@ module.exports = {
 
             }
     },
+    // target: 'http://api.yx101.cn/hycDevelop/',
     // CSS Sourcemaps off by default because relative paths are "buggy"
     // with this option, according to the CSS-Loader README
     // (https://github.com/webpack/css-loader#sourcemaps)

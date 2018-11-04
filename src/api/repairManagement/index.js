@@ -33,7 +33,7 @@ export const createOrderId = (params) => {
 
 //发送报价
 export const sendPrices = (params) => {
-    return axios.post(`/senPrice`,params)
+    return axios.post(`/send/price`,params)
 }
 
 //获表记录总数

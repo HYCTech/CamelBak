@@ -265,12 +265,13 @@ export default {
       this.form.picture.push({minFilename:this.imgBaseUrl+response.minFilename,
                               filename:this.imgBaseUrl+response.filename})
     },
-    sendPrices(row){        
+    sendPrices(row){
+      console.log("row.openID"+row.openID);
       let pushMessage={
               title:'维修价格',  
 							orderId:row.orderId,    //订单ID 显示用的
 							content:row.content,
-							openID:row.openID,      //用户的openid 
+							openID:"oQBciw2BV7CxY7zAxkx-yzEboppI",      //用户的openid
 							order_id:row._id,       //order表_id 操作用的
       }
       api.sendPrices(pushMessage).then(res=>{
