@@ -24,7 +24,7 @@ module.exports = {
   dev: {
     env: require('./dev.env'),
     port: 8080,
-    autoOpenBrowser: true,
+    autoOpenBrowser: false,
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
@@ -35,8 +35,7 @@ module.exports = {
                 },
                 changeOrigin: true,
                 secure:false
-
-            }
+      }
     },
     // target: 'http://api.yx101.cn/hycDevelop/',
     // CSS Sourcemaps off by default because relative paths are "buggy"
