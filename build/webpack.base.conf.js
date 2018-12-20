@@ -24,6 +24,8 @@ module.exports = {
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
       '@': resolve('src'),
+      'scss_vars': '@/styles/vars.scss',
+      'excel': path.resolve(__dirname, '../src/excel'),//新增加一行
     }
   },
   module: {
