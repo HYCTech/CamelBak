@@ -14,12 +14,14 @@ const voteMag=`pages/voteMag`
 
 const notice=`pages/notice`
 
-//const setting=`pages/setting`  
+//const setting=`pages/setting`
  //你把文件夹改成setting试一下，我这一直报错说找不到,不对文件夹只能叫settingd,见鬼了
 const setting=`pages/settingd`
 //console.log('aa',_import(`${setting}/setting`))
 
 const business=`pages/business`
+
+const materialMag=`pages/materialMag`
 
 import Hello from '@/components/Hello'
 
@@ -56,7 +58,7 @@ export default new Router({
             ]
         },
 
-      
+
         {
             path: '/index',
             name: '维修管理',
@@ -143,6 +145,16 @@ export default new Router({
 
             ]
         },
+      {
+        path: '/index',
+        name: '材料管理',
+        component:  _import('index'),
+        menu: true,
+        children: [
+          { path: '/index/material', name: '材料管理', component: _import(`${materialMag}/material`), meta: { index: '11' } },
+
+        ]
+      },
         {
             path: '/index',
             name: '设置',
